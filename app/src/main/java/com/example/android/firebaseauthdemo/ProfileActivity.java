@@ -17,14 +17,13 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseAuth firebaseAuth;
-
-    private TextView textViewUserEmail;
-    private Button buttonLogout;
-
     private DatabaseReference databaseReference;
 
-    private EditText editTextName, editTextAddress;
-    private Button buttonSave;
+    private TextView textViewUserEmail;
+    private Button btnLogout;
+
+    private EditText editTextNickname, editTextForename, editTextSurname;
+    private Button btnSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,26 +40,28 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        editTextAddress = (EditText) findViewById(R.id.editTextAdress);
-        editTextName = (EditText) findViewById(R.id.editTextName);
-        buttonSave = (Button) findViewById(R.id.buttonSave);
+        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
+        editTextForename = (EditText) findViewById(R.id.editTextForename);
+        editTextSurname = (EditText) findViewById(R.id.editTextSurname);
+        btnSave = (Button) findViewById(R.id.buttonSave);
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
         textViewUserEmail.setText("Welcome " + user.getEmail());
 
-        buttonLogout = (Button) findViewById(R.id.buttonLogout);
+        btnLogout = (Button) findViewById(R.id.buttonLogout);
 
-        buttonLogout.setOnClickListener(this);
-        buttonSave.setOnClickListener(this);
+        btnLogout.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
     }
 
     private void saveUserInformation() {
-        String name = editTextName.getText().toString().trim();
-        String address = editTextAddress.getText().toString().trim();
+        String nickname = editTextNickname.getText().toString().trim();
+        String forename = editTextForename.getText().toString().trim();
+        String surname = editTextSurname.getText().toString().trim();
 
-        UserInformation userInformation = new UserInformation(name, address);
+        UserInformation userInformation = new UserInformation(nickname, forename, surname);
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -72,13 +73,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
 
-        if (view == buttonLogout) {
+        if (view == btnLogout) {
             firebaseAuth.signOut();
             finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        if (view == buttonSave) {
+        if (view == btnSave) {
             saveUserInformation();
         }
     }

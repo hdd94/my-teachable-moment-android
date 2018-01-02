@@ -6,15 +6,17 @@ package com.example.android.firebaseauthdemo;
 
 public class UserInformation {
 
-    public  String name;
-    public  String address;
+    public String nickname;
+    public String forename;
+    public String surname;
 
     public UserInformation() {
 
     }
 
-    public UserInformation(String name, String address) {
-        this.name = name;
-        this.address = address;
+    public UserInformation(String nickname, String forename, String surname) {
+        this.nickname = nickname;
+        this.forename = forename;
+        this.surname = surname;
     }
 }

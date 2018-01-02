@@ -23,22 +23,28 @@
             android:id="@+id/textViewUserEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:text="Profile informations"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
         <EditText
-            android:id="@+id/editTextName"
+            android:id="@+id/editTextNickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your full name" />
+            android:hint="Nickname" />
 
         <EditText
-            android:id="@+id/editTextAdress"
+            android:id="@+id/editTextForename"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Adress" />
+            android:hint="Forename" />
+
+        <EditText
+            android:id="@+id/editTextSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Surname" />
 
         <Button
             android:id="@+id/buttonSave"
