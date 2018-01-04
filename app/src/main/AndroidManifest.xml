@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Register1Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,13 +25,12 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         <!--</activity>-->
-        <activity android:name=".Register1Activity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".Register2Activity" />
         <activity android:name=".TestAppBarActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity
-            android:name=".PasswordForgetActivity"
-            android:label="@string/title_activity_password_forgot" />
+        <activity android:name=".TeachableMomentsListActivity" />
+        <activity android:name=".PasswordForgetActivity" />
         <!--<activity android:name=".TestAppBarActivity"></activity>-->
     </application>
 

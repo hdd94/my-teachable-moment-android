@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
     private EditText editTextPassword;
     private EditText editTextPasswordConfirmed;
     private TextView textViewSignin;
+    private Toolbar toolbar;
 
     private ProgressBar progressBar;
 
@@ -61,6 +63,12 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
         editTextPasswordConfirmed = (EditText) findViewById(R.id.editTextPasswordConfirmed);
 
         textViewSignin = (TextView) findViewById(R.id.textViewSignin);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_register2);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         btnRegister.setOnClickListener(this);
         textViewSignin.setOnClickListener(this);
@@ -142,5 +150,12 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
         if(view == textViewSignin) {
             startActivity(new Intent(this, LoginActivity.class));
         }
+    }
+
+    //TODO Prüfen, ob es funktioniert, dass der Zurückbutton auf die vorherige Activity zeigt
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
