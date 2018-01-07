@@ -1,6 +1,7 @@
 package com.example.android.firebaseauthdemo;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class TeachableMomentsListActivity extends AppCompatActivity {
+public class TeachableMomentsListActivity extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
@@ -27,6 +29,7 @@ public class TeachableMomentsListActivity extends AppCompatActivity {
 
     private EditText editTextNickname, editTextForename, editTextSurname;
     private Button btnSave;
+    private ImageButton btnCreate;
 
     private Toolbar toolbar;
 
@@ -44,6 +47,9 @@ public class TeachableMomentsListActivity extends AppCompatActivity {
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        btnCreate = (ImageButton) findViewById(R.id.ImageButtonCreate);
+        btnCreate.setOnClickListener(this);
 
 //        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
 //        editTextForename = (EditText) findViewById(R.id.editTextForename);
@@ -91,6 +97,13 @@ public class TeachableMomentsListActivity extends AppCompatActivity {
 //            saveUserInformation();
 //        }
 //    }
+
+    @Override
+    public void onClick(View view) {
+        if(view == btnCreate) {
+            startActivity(new Intent(this, TeachableMomentActivity.class));
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
