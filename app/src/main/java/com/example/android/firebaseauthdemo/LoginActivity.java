@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if(TextUtils.isEmpty(email)) {
             //email is empty
-            Toast.makeText(this, "gggggBitte gebe eine E-Mail ein.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Bitte gebe eine E-Mail ein.", Toast.LENGTH_SHORT).show();
             //stopping the function execution further
             return;
         }
