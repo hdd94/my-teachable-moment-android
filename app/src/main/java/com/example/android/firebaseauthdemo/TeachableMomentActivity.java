@@ -51,11 +51,11 @@ public class TeachableMomentActivity extends AppCompatActivity implements View.O
 //
 //        textViewSignin = (TextView) findViewById(R.id.textViewSignin);
 //
-//        toolbar = (Toolbar) findViewById(R.id.toolbar_teachable_moment);
-//        setSupportActionBar(toolbar);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_teachable_moment);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //
 //        btnContinue.setOnClickListener(this);
 //        textViewSignin.setOnClickListener(this);
