@@ -16,14 +16,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class TeachableMomentActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button btnContinue;
-    private EditText editTextNickname;
-    private EditText editTextForename;
-    private EditText editTextSurname;
-    private TextView textViewSignin;
+    private EditText editTextTitle;
+    private EditText editTextTeachableMoment;
+    private EditText editTextPlace;
+    private EditText editTextDate;
+    private Button btnSave;
     private Toolbar toolbar;
-
-    private ProgressBar progressBar;
 
     private FirebaseAuth firebaseAuth;
 
@@ -37,35 +35,31 @@ public class TeachableMomentActivity extends AppCompatActivity implements View.O
         //If already an user logged in
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
-            //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
 
-//        progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
-//
-//        btnContinue = (Button) findViewById(R.id.buttonContinue);
-//
-//        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
-//        editTextForename = (EditText) findViewById(R.id.editTextForename);
-//        editTextSurname = (EditText) findViewById(R.id.editTextSurname);
-//
-//        textViewSignin = (TextView) findViewById(R.id.textViewSignin);
-//
+        editTextTitle = (EditText) findViewById(R.id.editTextTitle);
+        editTextTeachableMoment = (EditText) findViewById(R.id.editTextTeachableMoment);
+        editTextPlace = (EditText) findViewById(R.id.editTextPlace);
+        editTextDate = (EditText) findViewById(R.id.editTextDate);
+        btnSave = (Button) findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(this);
+
+
         toolbar = (Toolbar) findViewById(R.id.toolbar_teachable_moment);
         setSupportActionBar(toolbar);
-
+        //Zurück-Button oben links
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-//
-//        btnContinue.setOnClickListener(this);
-//        textViewSignin.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
+        if(view == btnSave) {
+            //TODO Daten speichern
+        }
     }
 
-    //TODO Prüfen, ob es funktioniert, dass der Zurückbutton auf die vorherige Activity zeigt
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
