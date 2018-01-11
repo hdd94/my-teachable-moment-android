@@ -3,6 +3,7 @@ package com.example.android.firebaseauthdemo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private EditText editTextNickname, editTextForename, editTextSurname;
     private Button btnSave;
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         textViewUserEmail.setText("Welcome " + user.getEmail());
 
         btnLogout = (Button) findViewById(R.id.buttonLogout);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_profile);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         btnLogout.setOnClickListener(this);
         btnSave.setOnClickListener(this);
@@ -82,5 +91,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (view == btnSave) {
             saveUserInformation();
         }
+    }
+
+    //TODO Prüfen, ob es funktioniert, dass der Zurückbutton auf die vorherige Activity zeigt
+    @Override
+    public boolean onSupportNavigateUp() {
+//        onBackPressed();
+        finish();
+        return true;
     }
 }

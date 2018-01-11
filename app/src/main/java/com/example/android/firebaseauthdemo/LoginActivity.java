@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText editTextPassword;
     private TextView textViewSignup;
     private TextView textViewPasswordForget;
+    private Toolbar toolbar;
 
     private FirebaseAuth firebaseAuth;
     private ProgressBar progressBar;
@@ -50,6 +52,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnSignIn = (Button) findViewById(R.id.buttonSignin);
         textViewSignup = (TextView) findViewById(R.id.textViewSignUp);
         textViewPasswordForget = (TextView) findViewById(R.id.textViewPasswordForget);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_login);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         btnSignIn.setOnClickListener(this);
         textViewSignup.setOnClickListener(this);
@@ -90,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             finish();
                             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                            startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
                         }
                     }
                 });
@@ -111,5 +119,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             finish();
             startActivity(new Intent(this, PasswordForgetActivity.class ));
         }
+    }
+
+    //TODO Prüfen, ob es funktioniert, dass der Zurückbutton auf die vorherige Activity zeigt
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

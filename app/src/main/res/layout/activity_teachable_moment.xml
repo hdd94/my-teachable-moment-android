@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.firebaseauthdemo.Register1Activity">
+    tools:context="com.example.android.firebaseauthdemo.TeachableMomentActivity">
 
     <android.support.v7.widget.Toolbar
-        app:title="Benutzer registrieren"
-        android:id="@+id/toolbar_register1"
+        app:title="Teachable Moment"
+        android:id="@+id/toolbar_teachable_moment"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -24,50 +24,47 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Benutzer registrieren"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_margin="15dp"
+            android:hint="Titel eingeben" />
 
         <EditText
-            android:id="@+id/editTextNickname"
+            android:id="@+id/editTextTeachableMoment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:hint="Nickname" />
+            android:hint="Deinen Teachable Moment verfassen... \nWas hast du erlebt? \nWas sind deine Erfahrungen?  \nWas sind deine Erkenntnisse? \nEtc..." />
 
-        <EditText
-            android:id="@+id/editTextForename"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:hint="Vorname"
-            android:inputType="none" />
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/editTextSurname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:hint="Nachname"
-            android:inputType="none" />
+            <EditText
+                android:id="@+id/editTextPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="Ort eingeben" />
+
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:hint="Datum eingeben" />
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/buttonContinue"
+            android:id="@+id/buttonSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="Weiter" />
-
-        <TextView
-            android:id="@+id/textViewSignin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Schon angemeldet? Klicke hier!"
-            android:textAlignment="center" />
+            android:text="Speichern" />
 
         <ProgressBar
             android:id="@+id/progressBar_cyclic"
