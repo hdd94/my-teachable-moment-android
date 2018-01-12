@@ -66,7 +66,7 @@
             android:id="@+id/textViewSignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Schon angemeldet? Klicke hier!"
+            android:text="Schon angemeldet? Melde dich hier an!"
             android:textAlignment="center" />
 
         <ProgressBar

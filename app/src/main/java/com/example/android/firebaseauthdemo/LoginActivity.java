@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
         }
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
@@ -55,9 +55,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_login);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         btnSignIn.setOnClickListener(this);
         textViewSignup.setOnClickListener(this);
@@ -116,15 +113,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         if (view == textViewPasswordForget) {
-            finish();
             startActivity(new Intent(this, PasswordForgetActivity.class ));
         }
-    }
-
-    //TODO Prüfen, ob es funktioniert, dass der Zurückbutton auf die vorherige Activity zeigt
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

@@ -8,9 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +27,8 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
-    private TextView textViewUserEmail;
-    private Button btnLogout;
-
-    private EditText editTextNickname, editTextForename, editTextSurname;
-    private Button btnSave;
     private ImageButton btnCreate;
+    private ListView listViewTeacheableMoments;
 
     private Toolbar toolbar;
 
@@ -40,7 +39,6 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //User isn't logged in
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
@@ -48,55 +46,50 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        btnCreate = (ImageButton) findViewById(R.id.ImageButtonCreate);
+        btnCreate = (ImageButton) findViewById(R.id.imageButtonCreate);
         btnCreate.setOnClickListener(this);
 
-//        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
-//        editTextForename = (EditText) findViewById(R.id.editTextForename);
-//        editTextSurname = (EditText) findViewById(R.id.editTextSurname);
-//        btnSave = (Button) findViewById(R.id.buttonSave);
-//
-//        FirebaseUser user = firebaseAuth.getCurrentUser();
-//
-//        textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
-//        textViewUserEmail.setText("Welcome " + user.getEmail());
-//
-//        btnLogout = (Button) findViewById(R.id.buttonLogout);
+        listViewTeacheableMoments = (ListView) findViewById(R.id.listViewTeachableMoments);
+
+        String[] values = new String[] {
+                //TODO #1 sollte immer rechts stehen
+                "Thema 1                                                     #1",
+                "Thema 2                                                     #2",
+                "Thema 3                                                     #3",
+                "Thema 4                                                     #4",
+                "Thema 5                                                     #5",
+                "Thema 6                                                     #6",
+                "Thema 7                                                     #7",
+                "Thema 8                                                     #8"
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        listViewTeacheableMoments.setAdapter(adapter);
+
+        listViewTeacheableMoments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // ListView Clicked item index
+                int itemPosition     = position;
+
+                // ListView Clicked item value
+                String  itemValue    = (String) listViewTeacheableMoments.getItemAtPosition(position);
+
+                // Show Alert
+                Toast.makeText(getApplicationContext(),
+                        "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
+                        .show();
+
+            }
+
+        });
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_teachable_moments_list);
         setSupportActionBar(toolbar);
-
-//        btnLogout.setOnClickListener(this);
-//        btnSave.setOnClickListener(this);
     }
-//
-//    private void saveUserInformation() {
-//        String nickname = editTextNickname.getText().toString().trim();
-//        String forename = editTextForename.getText().toString().trim();
-//        String surname = editTextSurname.getText().toString().trim();
-//
-//        UserInformation userInformation = new UserInformation(nickname, forename, surname);
-//
-//        FirebaseUser user = firebaseAuth.getCurrentUser();
-//
-//        databaseReference.child(user.getUid()).setValue(userInformation);
-//
-//        Toast.makeText(this, "Information Saved...", Toast.LENGTH_LONG).show();
-//    }
-//
-//    @Override
-//    public void onClick(View view) {
-//
-//        if (view == btnLogout) {
-//            firebaseAuth.signOut();
-//            finish();
-//            startActivity(new Intent(this, LoginActivity.class));
-//        }
-//
-//        if (view == btnSave) {
-//            saveUserInformation();
-//        }
-//    }
 
     @Override
     public void onClick(View view) {
@@ -105,13 +98,14 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
         }
     }
 
+    // Appbar Icons initialisieren
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
-
+    // OnClickListener von den Appbar Icons
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -120,8 +114,10 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
                 return true;
 
             case R.id.action_settings:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
+                //TODO Vorübergehend als Test als Logout-Button initialisiert
+                firebaseAuth.signOut();
+                finish();
+                startActivity(new Intent(this, LoginActivity.class));
                 return true;
 
             default:

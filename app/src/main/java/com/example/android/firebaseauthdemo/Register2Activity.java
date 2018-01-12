@@ -35,7 +35,6 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
-//    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +47,10 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
-//        databaseReference = FirebaseFirestore.getInstance();
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
 
@@ -129,7 +127,7 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
                                 public void onSuccess(Void aVoid) {
                                     finish();
                                     //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                                    startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
                                 }
                             });
                         } else {
@@ -148,6 +146,7 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
         }
 
         if(view == textViewSignin) {
+            finish();
             startActivity(new Intent(this, LoginActivity.class));
         }
     }

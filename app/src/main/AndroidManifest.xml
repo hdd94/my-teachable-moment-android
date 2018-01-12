@@ -11,28 +11,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".TeachableMomentsListActivity">
+        <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".Register1Activity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <!-- <activity android:name=".Register1Activity"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity android:name=".LoginActivity" />
+        <activity android:name=".TeachableMomentsListActivity" />
         <activity android:name=".Register2Activity" />
-        <activity android:name=".TestAppBarActivity" />
-        <activity android:name=".ProfileActivity" />
         <activity android:name=".Register1Activity" />
         <activity android:name=".PasswordForgetActivity" />
         <activity android:name=".TeachableMomentActivity" />
-        <!--<activity android:name=".TestAppBarActivity"></activity>-->
+        <!-- <activity android:name=".TestAppBarActivity"></activity> -->
     </application>
 
 </manifest>
