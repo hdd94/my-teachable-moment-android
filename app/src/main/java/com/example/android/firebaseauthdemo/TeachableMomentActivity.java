@@ -68,7 +68,7 @@ public class TeachableMomentActivity extends AppCompatActivity implements View.O
     @Override
     public void onClick(View view) {
         if(view == btnSave) {
-            //TODO Daten speichern
+            saveTeachableMoment();
         }
     }
 
@@ -80,6 +80,7 @@ public class TeachableMomentActivity extends AppCompatActivity implements View.O
 
     private void saveTeachableMoment () {
 
+        String id = databaseReference.push().getKey();
         String title = editTextTitle.getText().toString();
         String teachableMoment = editTextTeachableMoment.getText().toString();
         String place = editTextPlace.getText().toString();
@@ -107,15 +108,16 @@ public class TeachableMomentActivity extends AppCompatActivity implements View.O
         }
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        Date creationDate = new Date();
-//        SimpleDateFormat ft = new SimpleDateFormat("E dd.MM.yyyy");
-//        creationDate = ft.format(creationDate);
-        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(title, teachableMoment, place, date, user, creationDate);
-        databaseReference.child("UnconfirmedMoments").child(user.getUid()).setValue(userInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
+        String timeStamp = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date, user, timeStamp);
+        databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 finish();
                 //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
                 startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
+            }
+        });
+        Toast.makeText(this, "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
     }
 }
