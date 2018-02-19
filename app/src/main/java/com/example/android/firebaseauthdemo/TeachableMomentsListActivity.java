@@ -3,6 +3,7 @@ package com.example.android.firebaseauthdemo;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,8 +20,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TeachableMomentsListActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -44,7 +53,7 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("UnconfirmedMoments");
 
         btnCreate = (ImageButton) findViewById(R.id.imageButtonCreate);
         btnCreate.setOnClickListener(this);
@@ -126,5 +135,29 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<TeachableMomentInformation> u = new ArrayList<>();
+                u.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    TeachableMomentInformation university = postSnapshot.getValue(TeachableMomentInformation.class);
+                    u.add(university);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -107,9 +107,9 @@ public class TeachableMomentActivity extends AppCompatActivity implements View.O
             return;
         }
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String userID = firebaseAuth.getCurrentUser().getUid();
         String timeStamp = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date, user, timeStamp);
+        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date, userID, timeStamp);
         databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

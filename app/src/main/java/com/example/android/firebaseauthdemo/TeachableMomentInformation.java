@@ -15,7 +15,7 @@ public class TeachableMomentInformation {
     public String teachableMoment;
     public String place;
     public String date;
-    public FirebaseUser user;
+    public String userID;
     public String creationDate;
 
 
@@ -24,13 +24,13 @@ public class TeachableMomentInformation {
 
     }
 
-    public TeachableMomentInformation(String id, String title, String teachableMoment, String place, String date, FirebaseUser user, String creationDate) {
+    public TeachableMomentInformation(String id, String title, String teachableMoment, String place, String date, String user, String creationDate) {
         this.id = id;
         this.title = title;
         this.teachableMoment = teachableMoment;
         this.place = place;
         this.date = date;
-        this.user = user;
+        this.userID = user;
         this.creationDate = creationDate;
     }
 
