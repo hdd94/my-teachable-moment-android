@@ -45,7 +45,7 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
         TeachableMomentInformation tm = tmList.get(position);
         holder.title.setText(tm.getTitle());
         holder.genre.setText(tm.getTeachableMoment());
-        holder.year.setText(tm.getDate());
+        holder.year.setText("#1");
     }
 
     @Override
