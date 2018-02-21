@@ -17,7 +17,7 @@ public class t_TestActivity extends AppCompatActivity {
     private List<t_Movie> movieList = new ArrayList<>();
     private RecyclerView recyclerView;
     private t_MoviesAdapter mAdapter;
-
+#
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
