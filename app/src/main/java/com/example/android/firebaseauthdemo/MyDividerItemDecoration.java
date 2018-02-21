@@ -17,7 +17,7 @@ import android.view.View;
  * Created by Ravi on 30/10/15.
  * updated by Ravi on 14/11/17
  */
-public class t_MyDividerItemDecoration extends RecyclerView.ItemDecoration {
+public class MyDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{
             android.R.attr.listDivider
@@ -32,7 +32,7 @@ public class t_MyDividerItemDecoration extends RecyclerView.ItemDecoration {
     private Context context;
     private int margin;
 
-    public t_MyDividerItemDecoration(Context context, int orientation, int margin) {
+    public MyDividerItemDecoration(Context context, int orientation, int margin) {
         this.context = context;
         this.margin = margin;
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
