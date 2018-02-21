@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeachableMomentsListActivity extends AppCompatActivity implements View.OnClickListener {
+public class ShowTeachableMomentsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
@@ -42,13 +41,13 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teachable_moments_list);
+        setContentView(R.layout.activity_show_teachable_moments);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
         if (firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, LoginUserActivity.class));
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("UnconfirmedMoments");
@@ -88,8 +87,10 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                TeachableMomentInformation movie = tmList.get(position);
-                Toast.makeText(getApplicationContext(), movie.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                TeachableMomentInformation tm = tmList.get(position);
+//                Toast.makeText(getApplicationContext(), tm.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+
+                callTeachableMoment(tm);
             }
 
             @Override
@@ -102,7 +103,7 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
     @Override
     public void onClick(View view) {
         if (view == btnCreate) {
-            startActivity(new Intent(this, TeachableMomentActivity.class));
+            startActivity(new Intent(this, CreateTeachableMomentActivity.class));
         }
     }
 
@@ -125,7 +126,7 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
                 //TODO Vorübergehend als Test als Logout-Button initialisiert
                 firebaseAuth.signOut();
                 finish();
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, LoginUserActivity.class));
                 return true;
 
             default:
@@ -164,6 +165,13 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
         });
     }
 
+    private void callTeachableMoment(TeachableMomentInformation tm) {
+
+        Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
+        intent.putExtra("TeachableMoment", tm);
+        startActivity(intent);
+
+    }
     //TODO: RecyclerViews sortieren
 
 

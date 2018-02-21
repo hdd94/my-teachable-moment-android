@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.firebaseauthdemo.Register2Activity">
+    tools:context="com.example.android.firebaseauthdemo.LoginUserActivity">
 
     <include
         layout="@layout/toolbar_main"
@@ -13,19 +14,18 @@
         />
 
     <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Benutzer registrieren"
+            android:text="Benutzer anmelden"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
@@ -44,26 +44,27 @@
             android:hint="Passwort"
             android:inputType="textPassword" />
 
-        <EditText
-            android:id="@+id/editTextPasswordConfirmed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:hint="Passwort bestätigen"
-            android:inputType="textPassword" />
-
         <Button
-            android:id="@+id/buttonRegister"
+            android:id="@+id/buttonSignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="Registrieren" />
+            android:text="Anmelden" />
 
         <TextView
-            android:id="@+id/textViewSignin"
+            android:id="@+id/textViewSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Schon angemeldet? Melde dich hier an!"
+            android:layout_margin="15dp"
+            android:text="Du hast noch keinen Account? Registriere dich hier!"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewPasswordForget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Passwort vergessen? Klicke hier!"
             android:textAlignment="center" />
 
         <ProgressBar

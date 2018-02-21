@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Register1Activity extends AppCompatActivity implements View.OnClickListener{
+public class RegisterUser1Activity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btnContinue;
     private EditText editTextNickname;
@@ -30,7 +30,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register1);
+        setContentView(R.layout.activity_register_user_1);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -38,7 +38,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-            startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
+            startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
         }
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
@@ -85,7 +85,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
             return;
         }
 
-        Intent intent = new Intent(this, Register2Activity.class);
+        Intent intent = new Intent(this, RegisterUser2Activity.class);
         intent.putExtra("Nickname", nickname);
         intent.putExtra("Vorname", forename);
         intent.putExtra("Nachname", surname);
@@ -100,7 +100,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
 
         if(view == textViewSignin) {
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, LoginUserActivity.class));
         }
     }
 }

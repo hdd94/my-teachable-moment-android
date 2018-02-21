@@ -19,13 +19,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-public class Register2Activity extends AppCompatActivity implements View.OnClickListener{
+public class RegisterUser2Activity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btnRegister;
     private EditText editTextEmail;
@@ -42,7 +39,7 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register2);
+        setContentView(R.layout.activity_register_user_2);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -50,7 +47,7 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-            startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
+            startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -131,11 +128,11 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
                                 public void onSuccess(Void aVoid) {
                                     finish();
                                     //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                                    startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
+                                    startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
                                 }
                             });
                         } else {
-                            Toast.makeText(Register2Activity.this, "Could not register... please try again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterUser2Activity.this, "Could not register... please try again", Toast.LENGTH_SHORT).show();
                             //Gibt raus was für ein Problem der Task hat
                             task.getException().printStackTrace();
                         }
@@ -151,7 +148,7 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
 
         if(view == textViewSignin) {
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, LoginUserActivity.class));
         }
     }
 

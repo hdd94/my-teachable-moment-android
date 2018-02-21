@@ -7,7 +7,7 @@
     android:alpha="0.8"
     android:background="@drawable/medical_appointment_doctor_healthcare"
     android:orientation="vertical"
-    tools:context="com.example.android.firebaseauthdemo.StartActivity">
+    tools:context="com.example.android.firebaseauthdemo.ShowTitleScreen">
 
     <TextView
         android:id="@+id/textViewTitle"

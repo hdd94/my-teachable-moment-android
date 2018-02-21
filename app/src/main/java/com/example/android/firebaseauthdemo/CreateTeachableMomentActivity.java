@@ -8,21 +8,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-public class TeachableMomentActivity extends AppCompatActivity implements View.OnClickListener{
+public class CreateTeachableMomentActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText editTextTitle;
     private EditText editTextTeachableMoment;
@@ -37,14 +33,14 @@ public class TeachableMomentActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teachable_moment);
+        setContentView(R.layout.activity_create_teachable_moment);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
         //If already an user logged in
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            startActivity(new Intent(getApplicationContext(), LoginUserActivity.class));
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -116,7 +112,7 @@ public class TeachableMomentActivity extends AppCompatActivity implements View.O
             public void onSuccess(Void aVoid) {
                 finish();
                 //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
+                startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
             }
         });
         Toast.makeText(this, "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();

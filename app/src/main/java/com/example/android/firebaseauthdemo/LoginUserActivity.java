@@ -18,7 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginUserActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btnSignIn;
     private EditText editTextEmail;
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_user);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-            startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
+            startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
         }
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             finish();
                             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                            startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
+                            startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
                         }
                     }
                 });
@@ -110,11 +110,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if (view == textViewSignup) {
             finish(); //Finish this activity
-            startActivity(new Intent(this, Register1Activity.class)); //Start new Activity
+            startActivity(new Intent(this, RegisterUser1Activity.class)); //Start new Activity
         }
 
         if (view == textViewPasswordForget) {
-            startActivity(new Intent(this, PasswordForgetActivity.class ));
+            startActivity(new Intent(this, ForgetPasswordActivity.class ));
         }
     }
 }

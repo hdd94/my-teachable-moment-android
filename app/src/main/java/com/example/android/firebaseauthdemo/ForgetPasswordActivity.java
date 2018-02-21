@@ -2,7 +2,6 @@ package com.example.android.firebaseauthdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -16,7 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class PasswordForgetActivity extends AppCompatActivity implements View.OnClickListener {
+public class ForgetPasswordActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextEmail;
     private Button btnSend;
@@ -28,7 +27,7 @@ public class PasswordForgetActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_password_forget);
+        setContentView(R.layout.activity_forget_password);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -36,7 +35,7 @@ public class PasswordForgetActivity extends AppCompatActivity implements View.On
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-            startActivity(new Intent(getApplicationContext(), TeachableMomentsListActivity.class));
+            startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
         }
 
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
