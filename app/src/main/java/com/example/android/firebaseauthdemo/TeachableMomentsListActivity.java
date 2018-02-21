@@ -59,7 +59,8 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_teachable_moments_list);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar.setTitle("Hallo Moments");
         setSupportActionBar(toolbar);
 
         recyclerView.setHasFixedSize(true);
@@ -163,7 +164,6 @@ public class TeachableMomentsListActivity extends AppCompatActivity implements V
         });
     }
 
-    //TODO: Hinkriegen, dass Toolbar nicht überlappt und bei allen Fenstern kommt
     //TODO: RecyclerViews sortieren
 
 

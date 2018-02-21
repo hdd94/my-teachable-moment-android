@@ -58,7 +58,8 @@ public class TeachableMomentActivity extends AppCompatActivity implements View.O
         btnSave.setOnClickListener(this);
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_teachable_moment);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar.setTitle("Teachable Moment");
         setSupportActionBar(toolbar);
         //Zurück-Button oben links
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -7,15 +7,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.firebaseauthdemo.LoginActivity">
 
-    <android.support.v7.widget.Toolbar
-        app:title="Benutzer anmelden"
-        android:id="@+id/toolbar_login"
+    <include
+        layout="@layout/toolbar_main"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:layout_height="wrap_content"
+        />
 
     <LinearLayout
         android:layout_centerHorizontal="true"

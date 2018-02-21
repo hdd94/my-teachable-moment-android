@@ -53,7 +53,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         textViewSignup = (TextView) findViewById(R.id.textViewSignUp);
         textViewPasswordForget = (TextView) findViewById(R.id.textViewPasswordForget);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_login);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar.setTitle("Benutzer anmelden");
         setSupportActionBar(toolbar);
 
         btnSignIn.setOnClickListener(this);

@@ -65,7 +65,8 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
 
         textViewSignin = (TextView) findViewById(R.id.textViewSignin);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_register2);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar.setTitle("Benutzer registrieren");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

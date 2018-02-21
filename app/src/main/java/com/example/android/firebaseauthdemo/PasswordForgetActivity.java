@@ -42,7 +42,8 @@ public class PasswordForgetActivity extends AppCompatActivity implements View.On
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         btnSend = (Button) findViewById(R.id.btnSend);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_forget_password);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar.setTitle("Passwort vergessen");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
