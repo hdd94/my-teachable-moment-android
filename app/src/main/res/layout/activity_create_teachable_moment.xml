@@ -24,7 +24,7 @@
         <EditText
             android:id="@+id/editTextTitle"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
@@ -41,6 +41,7 @@
             android:layout_margin="5dp"
             android:padding="8dp"
             android:gravity="top|left"
+            android:maxLines="11"
             android:background="@drawable/backwithborder"
             android:hint="Deinen Teachable Moment verfassen... \nWas hast du erlebt? \nWas sind deine Erfahrungen?  \nWas sind deine Erkenntnisse? \nEtc..." />
 
@@ -51,28 +52,26 @@
 
             <EditText
                 android:id="@+id/editTextPlace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="25dp"
                 android:layout_margin="5dp"
                 android:layout_alignParentLeft="true"
+                android:maxLines="1"
                 android:layout_below="@id/editTextTeachableMoment"
                 android:background="@null"
                 android:hint="Ort eingeben" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
-
             <EditText
                 android:id="@+id/editTextDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="25dp"
                 android:layout_below="@id/editTextTeachableMoment"
                 android:layout_margin="5dp"
                 android:gravity="right"
                 android:background="@null"
+                android:maxLines="1"
                 android:hint="Datum eingeben" />
 
         </LinearLayout>

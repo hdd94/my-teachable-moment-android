@@ -40,12 +40,10 @@ public class ShowTitleScreen extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view == btnContinue) {
-            finish();
             startActivity(new Intent(this, RegisterUser1Activity.class)); //Start new Activity
         }
 
         if (view == textViewLogin) {
-            finish();
             startActivity(new Intent(this, LoginUserActivity.class)); //Start new Activity
         }
     }

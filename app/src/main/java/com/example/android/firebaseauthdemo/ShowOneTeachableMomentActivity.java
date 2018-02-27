@@ -41,7 +41,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
         //If already an user logged in
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(getApplicationContext(), LoginUserActivity.class));
+            startActivity(new Intent(getApplicationContext(), ShowTitleScreen.class));
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -50,7 +50,8 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextTitle.setEnabled(false);
         editTextTeachableMoment = (EditText) findViewById(R.id.editTextTeachableMoment);
-        editTextTeachableMoment.setEnabled(false);
+//        editTextTeachableMoment.setEnabled(false);
+        editTextTeachableMoment.setKeyListener(null);
         editTextPlace = (EditText) findViewById(R.id.editTextPlace);
         editTextPlace.setEnabled(false);
         editTextDate = (EditText) findViewById(R.id.editTextDate);
@@ -77,7 +78,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
     @Override
     public void onClick(View view) {
         if(view == btnSave) {
-            saveTeachableMoment();
+//            saveTeachableMoment();
         }
     }
 
@@ -87,46 +88,46 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void saveTeachableMoment () {
-
-        String id = databaseReference.push().getKey();
-        String title = editTextTitle.getText().toString();
-        String teachableMoment = editTextTeachableMoment.getText().toString();
-        String place = editTextPlace.getText().toString();
-        String date = editTextDate.getText().toString();
-        // TODO: Datepicker einbauen
-
-        if(TextUtils.isEmpty(title)) {
-            Toast.makeText(this, "Bitte gebe einen Titel ein.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(teachableMoment)) {
-            Toast.makeText(this, "Bitte gebe ein Teachable Moment ein.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(place)) {
-            Toast.makeText(this, "Bitte gebe einen Ort ein.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(date)) {
-            Toast.makeText(this, "Bitte gebe ein Datum ein.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String userID = firebaseAuth.getCurrentUser().getUid();
-        String timeStamp = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date, userID, timeStamp);
-        databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                finish();
-                //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
-            }
-        });
-        Toast.makeText(this, "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
-    }
+//    private void saveTeachableMoment () {
+//
+//        String id = databaseReference.push().getKey();
+//        String title = editTextTitle.getText().toString();
+//        String teachableMoment = editTextTeachableMoment.getText().toString();
+//        String place = editTextPlace.getText().toString();
+//        String date = editTextDate.getText().toString();
+//        // TODO: Datepicker einbauen
+//
+//        if(TextUtils.isEmpty(title)) {
+//            Toast.makeText(this, "Bitte gebe einen Titel ein.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        if(TextUtils.isEmpty(teachableMoment)) {
+//            Toast.makeText(this, "Bitte gebe ein Teachable Moment ein.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        if(TextUtils.isEmpty(place)) {
+//            Toast.makeText(this, "Bitte gebe einen Ort ein.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        if(TextUtils.isEmpty(date)) {
+//            Toast.makeText(this, "Bitte gebe ein Datum ein.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        String userID = firebaseAuth.getCurrentUser().getUid();
+//        String timeStamp = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+//        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date, userID, timeStamp);
+//        databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                finish();
+//                //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
+//                startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
+//            }
+//        });
+//        Toast.makeText(this, "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
+//    }
 }

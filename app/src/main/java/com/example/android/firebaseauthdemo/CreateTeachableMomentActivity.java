@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,6 +32,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    String userName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         //If already an user logged in
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(getApplicationContext(), LoginUserActivity.class));
+            startActivity(new Intent(getApplicationContext(), ShowTitleScreen.class));
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -105,8 +109,21 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         }
 
         String userID = firebaseAuth.getCurrentUser().getUid();
+        databaseReference.child("Benutzer").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userName = dataSnapshot.getValue(UserInformation.class).getNickname();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //TODO: Ein Objekt herausfinden mit UserID, sodass in Firebase nach Object gesucht wird mit der passenden ID
         String timeStamp = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date, userID, timeStamp);
+        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date,  userID, userName, timeStamp);
         databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

@@ -47,7 +47,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
         if (firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(this, LoginUserActivity.class));
+            startActivity(new Intent(this, ShowTitleScreen.class));
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("UnconfirmedMoments");
@@ -126,7 +126,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
                 //TODO Vorübergehend als Test als Logout-Button initialisiert
                 firebaseAuth.signOut();
                 finish();
-                startActivity(new Intent(this, LoginUserActivity.class));
+                startActivity(new Intent(this, ShowTitleScreen.class));
                 return true;
 
             default:
@@ -147,9 +147,8 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             public void onDataChange(DataSnapshot dataSnapshot) {
                 tmList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    TeachableMomentInformation university = postSnapshot.getValue(TeachableMomentInformation.class);
-                    tmList.add(university);
-
+                    TeachableMomentInformation tm = postSnapshot.getValue(TeachableMomentInformation.class);
+                    tmList.add(tm);
                 }
 
                 mAdapter = new TeachableMomentInformationAdapter(tmList);
