@@ -17,13 +17,13 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
     private List<TeachableMomentInformation> tmList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, year, genre;
+        public TextView title, rating, user;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
-            genre = (TextView) view.findViewById(R.id.user);
-            year = (TextView) view.findViewById(R.id.rating);
+            user = (TextView) view.findViewById(R.id.user);
+            rating = (TextView) view.findViewById(R.id.rating);
         }
     }
 
@@ -44,8 +44,8 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
     public void onBindViewHolder(MyViewHolder holder, int position) {
         TeachableMomentInformation tm = tmList.get(position);
         holder.title.setText(tm.getTitle());
-        holder.genre.setText(tm.getUserName());
-        holder.year.setText("#1");
+        holder.user.setText("UserName");
+        holder.rating.setText("#1");
     }
 
     @Override
