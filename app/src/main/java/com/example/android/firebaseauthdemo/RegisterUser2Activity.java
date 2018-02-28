@@ -43,7 +43,7 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an user logged in
+        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method

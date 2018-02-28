@@ -31,7 +31,7 @@ public class ForgetPasswordActivity extends AppCompatActivity implements View.On
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an user logged in
+        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method

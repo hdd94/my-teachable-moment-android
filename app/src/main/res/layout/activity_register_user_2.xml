@@ -20,14 +20,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Benutzer registrieren"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"

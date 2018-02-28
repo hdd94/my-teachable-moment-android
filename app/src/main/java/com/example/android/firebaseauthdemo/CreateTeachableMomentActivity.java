@@ -33,7 +33,16 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
-    String userName = null;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +51,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an user logged in
+        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(getApplicationContext(), ShowTitleScreen.class));
@@ -91,6 +100,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
 
         if(TextUtils.isEmpty(title)) {
             Toast.makeText(this, "Bitte gebe einen Titel ein.", Toast.LENGTH_SHORT).show();
+            //TODO: Maximale Titellänge definieren
             return;
         }
 
@@ -110,22 +120,21 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         }
 
         String userID = firebaseAuth.getCurrentUser().getUid();
-//        final ArrayList<String> userName = new ArrayList<>();
-//        databaseReference.child("Benutzer").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                userName.add(dataSnapshot.getValue(UserInformation.class).getNickname());
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-        String userName1 = null;
+        databaseReference.child("Benutzer").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               setUserName(dataSnapshot.getValue(UserInformation.class).getNickname());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         //TODO: !!!!!!!!!!!!!!!!!!!!!!! Ein Objekt herausfinden mit UserID, sodass in Firebase nach Object gesucht wird mit der passenden ID
         String timeStamp = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+        String userName1 = getUserName();
         TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date,  userID, userName1, timeStamp);
         databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

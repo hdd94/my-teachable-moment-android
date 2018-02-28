@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,13 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ShowOneTeachableMomentActivity extends AppCompatActivity implements View.OnClickListener{
+public class ShowOneTeachableMomentActivity extends AppCompatActivity{
 
     private EditText editTextTitle;
     private EditText editTextTeachableMoment;
     private EditText editTextPlace;
     private EditText editTextDate;
-    private Button btnSave;
+    private RatingBar ratingBar;
     private Toolbar toolbar;
 
     private FirebaseAuth firebaseAuth;
@@ -38,7 +39,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an user logged in
+        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(getApplicationContext(), ShowTitleScreen.class));
@@ -57,10 +58,6 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
         editTextDate = (EditText) findViewById(R.id.editTextDate);
         editTextDate.setEnabled(false);
 
-        btnSave = (Button) findViewById(R.id.btnSave);
-        btnSave.setOnClickListener(this);
-
-
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         toolbar.setTitle("Teachable Moment");
         setSupportActionBar(toolbar);
@@ -73,13 +70,17 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
         editTextTeachableMoment.setText(tm.getTeachableMoment());
         editTextPlace.setText(tm.getPlace());
         editTextDate.setText(tm.getDate());
-    }
 
-    @Override
-    public void onClick(View view) {
-        if(view == btnSave) {
-//            saveTeachableMoment();
-        }
+//        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+//        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//            @Override
+//            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+//                databaseReference.child("UnconfirmedMoments").child(tm.getId())
+//                Toast.makeText(getApplicationContext(), "Beitrag wurde erfolgreich bewertet.", Toast.LENGTH_SHORT).show();
+//                //TODO: Bewertung speichern --> Durchschnittsbewertung berechnen
+//                databaseReference.child("Benutzer").child(titel.getUid()).setValue(userInformation);
+//            }
+//        });
     }
 
     @Override
@@ -91,13 +92,13 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
 //    private void saveTeachableMoment () {
 //
 //        String id = databaseReference.push().getKey();
-//        String title = editTextTitle.getText().toString();
+//        String nickname = editTextTitle.getText().toString();
 //        String teachableMoment = editTextTeachableMoment.getText().toString();
 //        String place = editTextPlace.getText().toString();
 //        String date = editTextDate.getText().toString();
 //        // TODO: Datepicker einbauen
 //
-//        if(TextUtils.isEmpty(title)) {
+//        if(TextUtils.isEmpty(nickname)) {
 //            Toast.makeText(this, "Bitte gebe einen Titel ein.", Toast.LENGTH_SHORT).show();
 //            return;
 //        }
@@ -119,7 +120,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
 //
 //        String userID = firebaseAuth.getCurrentUser().getUid();
 //        String timeStamp = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-//        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date, userID, timeStamp);
+//        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, nickname, teachableMoment, place, date, userID, timeStamp);
 //        databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
 //            @Override
 //            public void onSuccess(Void aVoid) {

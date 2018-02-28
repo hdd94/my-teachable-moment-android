@@ -23,7 +23,7 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
             super(view);
             title = (TextView) view.findViewById(R.id.title);
             user = (TextView) view.findViewById(R.id.user);
-            rating = (TextView) view.findViewById(R.id.rating);
+//            rating = (TextView) view.findViewById(R.id.rating);
         }
     }
 
@@ -44,8 +44,8 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
     public void onBindViewHolder(MyViewHolder holder, int position) {
         TeachableMomentInformation tm = tmList.get(position);
         holder.title.setText(tm.getTitle());
-        holder.user.setText("UserName");
-        holder.rating.setText("#1");
+        holder.user.setText("Nickname des Users");
+//        holder.rating.setText("#00");
     }
 
     @Override

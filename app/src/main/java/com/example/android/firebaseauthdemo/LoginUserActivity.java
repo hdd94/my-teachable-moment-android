@@ -38,7 +38,7 @@ public class LoginUserActivity extends AppCompatActivity implements View.OnClick
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an user logged in
+        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method

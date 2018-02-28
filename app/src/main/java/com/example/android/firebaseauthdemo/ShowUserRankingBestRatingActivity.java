@@ -8,12 +8,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,25 +22,24 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowTeachableMomentsActivity extends AppCompatActivity implements View.OnClickListener {
+public class ShowUserRankingBestRatingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
-    private ImageButton buttonCreate;
-    private ImageButton buttonRanking;
-    private ListView listViewTeacheableMoments;
+    private ImageButton buttonChange;
 
     private Toolbar toolbar;
 
     private RecyclerView recyclerView;
-    private TeachableMomentInformationAdapter mAdapter;
-    List<TeachableMomentInformation> tmList = new ArrayList<>();
+    //TODO: TeachableMoment anzeigen mit User anzeigen wechseln!
+    private UserRankingBestRankingAdapter mAdapter;
+    List<UserInformation> umList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_teachable_moments);
+        setContentView(R.layout.activity_show_user_ranking_best_rating);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -53,18 +48,20 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             startActivity(new Intent(this, ShowTitleScreen.class));
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("UnconfirmedMoments");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Benutzer");
 
-        buttonCreate = (ImageButton) findViewById(R.id.imageButtonCreate);
-        buttonCreate.setOnClickListener(this);
-        buttonRanking = (ImageButton) findViewById(R.id.imageButtonUserRanking);
-        buttonRanking.setOnClickListener(this);
+        buttonChange = (ImageButton) findViewById(R.id.imageButtonChange);
+        buttonChange.setOnClickListener(this);
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        toolbar.setTitle("Teachable Moments");
+        toolbar.setTitle("User-Ranking");
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         recyclerView.setHasFixedSize(true);
 
@@ -91,10 +88,10 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                TeachableMomentInformation tm = tmList.get(position);
-//                Toast.makeText(getApplicationContext(), tm.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
+                UserInformation um = umList.get(position);
+                Toast.makeText(getApplicationContext(), um.getNickname() + " is selected!", Toast.LENGTH_SHORT).show();
 
-                callTeachableMoment(tm);
+//                callTeachableMoment(tm);
             }
 
             @Override
@@ -106,40 +103,9 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View view) {
-        if (view == buttonCreate) {
-            startActivity(new Intent(this, CreateTeachableMomentActivity.class));
-        }
-
-        if (view == buttonRanking) {
-            startActivity(new Intent(this, ShowUserRankingBestRatingActivity.class));
-        }
-    }
-
-    // Appbar Icons initialisieren
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    // OnClickListener von den Appbar Icons
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sort:
-                    Toast.makeText(getApplicationContext(), "Sortiermenü anzeigen (Aktuell, " +
-                            "Höchste Bewertung, Meistbewertet)", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.action_settings:
-                startActivity(new Intent(this, ShowMenuActivity.class));
-                return true;
-
-            default:
-                // If we got here, the titel's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
+        if (view == buttonChange) {
+            finish();
+            startActivity(new Intent(this, ShowUserRankingMostMomentsActivity.class));
         }
     }
 
@@ -151,13 +117,13 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                tmList.clear();
+                umList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    TeachableMomentInformation tm = postSnapshot.getValue(TeachableMomentInformation.class);
-                    tmList.add(tm);
+                    UserInformation um = postSnapshot.getValue(UserInformation.class);
+                    umList.add(um);
                 }
 
-                mAdapter = new TeachableMomentInformationAdapter(tmList);
+                mAdapter = new UserRankingBestRankingAdapter(umList);
                 recyclerView.setAdapter(mAdapter);
 
                 mAdapter.notifyDataSetChanged();
@@ -170,14 +136,20 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         });
     }
 
-    private void callTeachableMoment(TeachableMomentInformation tm) {
-
-        Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
-        intent.putExtra("TeachableMoment", tm);
-        startActivity(intent);
-
-    }
+//    private void callTeachableMoment(TeachableMomentInformation tm) {
+//
+//        Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
+//        intent.putExtra("TeachableMoment", tm);
+//        startActivity(intent);
+//
+//    }
     //TODO: RecyclerViews sortieren
 
+    //TODO Prüfen, ob es funktioniert, dass der Zurückbutton auf die vorherige Activity zeigt
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
 }

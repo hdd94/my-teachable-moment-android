@@ -11,7 +11,7 @@
 //public class TeachableMomentInformation {
 //
 //    public String id;
-//    public String title;
+//    public String nickname;
 //    public String teachableMoment;
 //    public String place;
 //    public String date;
@@ -24,13 +24,13 @@
 //
 //    }
 //
-//    public TeachableMomentInformation(String id, String title, String teachableMoment, String place, String date, String user, String creationDate) {
+//    public TeachableMomentInformation(String id, String nickname, String teachableMoment, String place, String date, String titel, String creationDate) {
 //        this.id = id;
-//        this.title = title;
+//        this.nickname = nickname;
 //        this.teachableMoment = teachableMoment;
 //        this.place = place;
 //        this.date = date;
-//        this.userID = user;
+//        this.userID = titel;
 //        this.creationDate = creationDate;
 //    }
 //
@@ -43,11 +43,11 @@
 //    }
 //
 //    public String getTitle() {
-//        return title;
+//        return nickname;
 //    }
 //
-//    public void setTitle(String title) {
-//        this.title = title;
+//    public void setTitle(String nickname) {
+//        this.nickname = nickname;
 //    }
 //
 //    public String getTeachableMoment() {

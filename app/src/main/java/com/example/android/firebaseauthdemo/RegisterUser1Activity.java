@@ -23,8 +23,6 @@ public class RegisterUser1Activity extends AppCompatActivity implements View.OnC
     private TextView textViewSignin;
     private Toolbar toolbar;
 
-    private ProgressBar progressBar;
-
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -34,14 +32,12 @@ public class RegisterUser1Activity extends AppCompatActivity implements View.OnC
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an user logged in
+        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
             startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
         }
-
-        progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
 
         btnContinue = (Button) findViewById(R.id.buttonContinue);
 

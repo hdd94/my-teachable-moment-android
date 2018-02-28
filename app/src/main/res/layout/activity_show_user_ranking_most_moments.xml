@@ -31,11 +31,21 @@
             <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
             <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
 
-
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
+            android:text="User-Ranking geordnet nach Usern mit den meisten Beiträgen"/>
+        
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="435dp"
+            android:layout_height="390dp"
             android:scrollbars="vertical"
             android:background="@drawable/backwithborder"
             android:layout_margin="5dp"
@@ -44,23 +54,13 @@
         </LinearLayout>
 
     <ImageButton
-        android:id="@+id/imageButtonUserRanking"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/button_bg_round"
-        android:src="@drawable/ic_person_black_24dp" />
-
-    <ImageButton
-        android:id="@+id/imageButtonCreate"
+        android:id="@+id/imageButtonChange"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/button_bg_round"
-        android:src="@drawable/ic_create_black_24dp" />
+        android:src="@drawable/ic_autorenew_black_24dp" />
 
 </RelativeLayout>
