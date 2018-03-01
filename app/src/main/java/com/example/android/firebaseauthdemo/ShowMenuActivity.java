@@ -67,23 +67,23 @@ public class ShowMenuActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
 
         if(view == buttonChangeMail) {
-            startActivity(new Intent(this, LoginUserActivity.class));
+            Toast.makeText(getApplicationContext(), "Ändere Mail...", Toast.LENGTH_SHORT).show();
         }
 
         if(view == buttonChangePassword) {
-            startActivity(new Intent(this, LoginUserActivity.class));
+            Toast.makeText(getApplicationContext(), "Ändere Passwort...", Toast.LENGTH_SHORT).show();
         }
 
         if(view == buttonExtendCounter) {
-            startActivity(new Intent(this, LoginUserActivity.class));
+            Toast.makeText(getApplicationContext(), "Verlängere App-Counter...", Toast.LENGTH_SHORT).show();
         }
 
         if(view == buttonContactSupport) {
-            startActivity(new Intent(this, LoginUserActivity.class));
+            Toast.makeText(getApplicationContext(), "Kontaktiere Support...", Toast.LENGTH_SHORT).show();
         }
 
         if(view == buttonShowImpressum) {
-            startActivity(new Intent(this, LoginUserActivity.class));
+            startActivity(new Intent(this, ShowImpressum.class));
         }
 
         if(view == buttonLogOut) {

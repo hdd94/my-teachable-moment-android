@@ -27,8 +27,10 @@
         <activity android:name=".ShowOneTeachableMomentActivity" />
         <activity android:name=".ShowTitleScreen"></activity>
         <activity android:name=".ShowMenuActivity"></activity>
+        <activity android:name=".ShowImpressum"></activity>
         <activity android:name=".ShowUserRankingMostMomentsActivity"></activity>
         <activity android:name=".ShowUserRankingBestRatingActivity"></activity>
+
 
     </application>
 

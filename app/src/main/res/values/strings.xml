@@ -1,5 +1,31 @@
 <resources>
-    <string name="app_name">FirebaseAuthDemo</string>
+    <string name="app_name">TeaM</string>
     <string name="title_activity_password_forgot">PasswordForgotActivity</string>
     <string name="title_activity_start">StartActivity</string>
+    <string name="your_text">
+        <![CDATA[
+        ist eine Applikation des PJ-Teams<br/>
+        der Medizinischen Klinik des<br/>
+        Universitätsklinikums Heidelberg<br/>
+        unter der Leitung von<br/>
+        Dr. med. Till Johannes Bugaj.<br/> <br/>
+
+        Medizinische Klinik<br/>
+        Universitätsklinikum Heidelberg<br/>
+        Im Neuenheimer Feld 410<br/>
+        69120 Heidelberg<br/> <br/>
+
+        <b>Projektleitung und Konzeption:</b> <br/>
+        Dr. med. Till Johannes Bugaj<br/>
+        Till.Bugaj@med.uni-heidelberg.de<br/> <br/>
+
+        <b>Technische Konzeption, technische Umsetzung & Design:</b> <br/>
+        Huy Duc Do<br/>
+        Student der medizinischen Informatik<br/>
+        Hochschule Heilbronn / Universität Heidelberg<br/>
+        huyducdo@googlemail.com<br/> <br/>
+
+        Version 1.0
+        ]]>
+    </string>
 </resources>
