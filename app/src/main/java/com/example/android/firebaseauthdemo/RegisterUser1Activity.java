@@ -32,7 +32,6 @@ public class RegisterUser1Activity extends AppCompatActivity implements View.OnC
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
@@ -51,10 +50,15 @@ public class RegisterUser1Activity extends AppCompatActivity implements View.OnC
         toolbar.setTitle("Benutzer registrieren");
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         btnContinue.setOnClickListener(this);
         textViewSignin.setOnClickListener(this);
     }
 
+
+    //TODO: Zurück-Button oben links noch reinimplementieren
     private void continueRegistration() {
         String nickname = editTextNickname.getText().toString().trim();
         String forename = editTextForename.getText().toString().trim();
@@ -98,5 +102,11 @@ public class RegisterUser1Activity extends AppCompatActivity implements View.OnC
             finish();
             startActivity(new Intent(this, LoginUserActivity.class));
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

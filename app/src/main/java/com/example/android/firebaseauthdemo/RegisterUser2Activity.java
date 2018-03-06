@@ -43,7 +43,6 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
@@ -57,6 +56,7 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
         btnRegister = (Button) findViewById(R.id.buttonRegister);
 
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+        //TODO: E-Mail Verifikation hinzufügen
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextPasswordConfirmed = (EditText) findViewById(R.id.editTextPasswordConfirmed);
 

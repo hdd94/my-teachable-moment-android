@@ -3,8 +3,10 @@ package com.example.android.firebaseauthdemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,6 +17,8 @@ public class ShowTitleScreen extends AppCompatActivity implements View.OnClickLi
 
     private Button btnContinue;
     private TextView textViewLogin;
+//    private ImageView imageViewTitle;
+    private TextView textViewTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +27,6 @@ public class ShowTitleScreen extends AppCompatActivity implements View.OnClickLi
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() != null) {
             finish();
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
@@ -32,9 +35,23 @@ public class ShowTitleScreen extends AppCompatActivity implements View.OnClickLi
 
         btnContinue = (Button) findViewById(R.id.btnContinue);
         textViewLogin = (TextView) findViewById(R.id.textViewLogin);
+//        imageViewTitle = (ImageView) findViewById(R.id.imageViewTitle);
+        textViewTitle = (TextView) findViewById(R.id.textViewTitle);
 
         btnContinue.setOnClickListener(this);
         textViewLogin.setOnClickListener(this);
+
+        String myTeaM = "<font face='verdana' color='#C61A27'><b>MyTeaM</b><br></font>";
+        String hyphen = "-";
+        String myTea = "<font color='#C61A27'><b> MyTea</b></font>";
+        String chable = "chable";
+        String m = "<font color='#C61A27'><b> M</b></font>";
+        String oment = "oment ";
+        textViewTitle.setText(Html.fromHtml(myTeaM +hyphen + myTea + chable + m + oment + hyphen));
+
+//        imageViewTitle.setImageResource(R.drawable.titel_titelbildschirm);
+
+
     }
 
     @Override

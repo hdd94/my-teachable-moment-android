@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,10 +11,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ShowImpressum extends AppCompatActivity{
+public class ShowMenuUserDataActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private TextView textViewTitle;
-    private TextView textViewImpressum;
+    private Button buttonChangeMail;
+    private Button buttonChangePassword;
+    private TextView textViewCounter;
     private Toolbar toolbar;
 
     private FirebaseAuth firebaseAuth;
@@ -24,7 +23,7 @@ public class ShowImpressum extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_impressum);
+        setContentView(R.layout.activity_show_menu_change_user_data);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -33,28 +32,37 @@ public class ShowImpressum extends AppCompatActivity{
             startActivity(new Intent(this, ShowTitleScreen.class));
         }
 
-        String myTeaM = "<font face='verdana' color='#C61A27'><b>MyTeaM</b><br></font>";
-        String hyphen = "-";
-        String myTea = "<font color='#C61A27'><b> MyTea</b></font>";
-        String chable = "chable";
-        String m = "<font color='#C61A27'><b> M</b></font>";
-        String oment = "oment ";
-        textViewTitle = (TextView) findViewById(R.id.textViewTitle);
-        textViewTitle.setText(Html.fromHtml(myTeaM +hyphen + myTea + chable + m + oment + hyphen));
+        buttonChangeMail = (Button) findViewById(R.id.buttonChangeMail);
+        buttonChangePassword = (Button) findViewById(R.id.buttonChangePassword);
 
-        textViewImpressum = (TextView) findViewById(R.id.textViewImpressum);
-        textViewImpressum.setText(Html.fromHtml(getString(R.string.your_text)));
+        textViewCounter = (TextView) findViewById(R.id.textViewCounter);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        toolbar.setTitle("Impressum");
+        toolbar.setTitle("Benutzerdaten ändern");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        buttonChangeMail.setOnClickListener(this);
+        buttonChangePassword.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if(view == buttonChangeMail) {
+            startActivity(new Intent(this, ChangeMailActivity.class));
+        }
+
+        if(view == buttonChangePassword) {
+            startActivity(new Intent(this, ChangePasswordActivity.class));
+        }
     }
 
     @Override
     public boolean onSupportNavigateUp() {
+        finish();
         onBackPressed();
         return true;
     }

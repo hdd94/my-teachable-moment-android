@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TeaM</string>
+    <string name="app_name">MyTeaM</string>
     <string name="title_activity_password_forgot">PasswordForgotActivity</string>
     <string name="title_activity_start">StartActivity</string>
     <string name="your_text">

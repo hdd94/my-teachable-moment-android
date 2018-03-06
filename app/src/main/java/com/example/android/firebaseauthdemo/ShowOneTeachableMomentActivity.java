@@ -39,7 +39,6 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //If already an titel logged in
         if(firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(getApplicationContext(), ShowTitleScreen.class));
