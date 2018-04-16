@@ -44,7 +44,11 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
     public void onBindViewHolder(MyViewHolder holder, int position) {
         TeachableMomentInformation tm = tmList.get(position);
         holder.title.setText(tm.getTitle());
-        holder.user.setText("Nickname des Users");
+        try {
+            holder.user.setText(tm.getUserInformation().getNickname());
+        } catch (NullPointerException npe) {
+            // It's fine if findUser throws a NPE
+        }
 //        holder.rating.setText("#00");
     }
 

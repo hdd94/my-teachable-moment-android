@@ -32,6 +32,8 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
+    private TeachableMomentInformation tm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,22 +66,24 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        TeachableMomentInformation tm = (TeachableMomentInformation) getIntent().getParcelableExtra("TeachableMoment");
+        tm = (TeachableMomentInformation) getIntent().getParcelableExtra("TeachableMoment");
         editTextTitle.setText(tm.getTitle());
         editTextTeachableMoment.setText(tm.getTeachableMoment());
         editTextPlace.setText(tm.getPlace());
         editTextDate.setText(tm.getDate());
 
-//        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-//        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//            @Override
-//            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-//                databaseReference.child("UnconfirmedMoments").child(tm.getId())
-//                Toast.makeText(getApplicationContext(), "Beitrag wurde erfolgreich bewertet.", Toast.LENGTH_SHORT).show();
-//                //TODO: Bewertung speichern --> Durchschnittsbewertung berechnen
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                Toast.makeText(getApplicationContext(), "Stars: " + (int)rating, Toast.LENGTH_SHORT).show();
+                databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("ratings");
+                Toast.makeText(getApplicationContext(), "Beitrag wurde erfolgreich bewertet.", Toast.LENGTH_SHORT).show();
+                //TODO: Bewertung speichern --> Durchschnittsbewertung berechnen
 //                databaseReference.child("Benutzer").child(titel.getUid()).setValue(userInformation);
-//            }
-//        });
+                //TODO: Bewertung als Extra-Objekt wie TeachableMoments etc. speichern.
+            }
+        });
     }
 
     @Override

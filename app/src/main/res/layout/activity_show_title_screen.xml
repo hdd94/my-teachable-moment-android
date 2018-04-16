@@ -13,7 +13,7 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="120dp"-->
         <!--android:layout_margin="5dp"-->
-        <!--android:background="@drawable/backwithborder" />-->
+        <!--android:background="@drawaborderTeachableMomentrder" />-->
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -23,7 +23,7 @@
         android:textSize="30sp"
         android:gravity="center"
         android:textColor="@android:color/background_dark"
-        android:background="@drawable/backwithborder" />
+        android:background="@drawable/border_teachable_moment" />
 
     <LinearLayout
         android:layout_width="match_parent"

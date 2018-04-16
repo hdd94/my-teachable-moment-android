@@ -2,9 +2,11 @@ package com.example.android.firebaseauthdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,15 +36,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    private String userName;
+    private UserInformation userInformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +67,8 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         //Zurück-Button oben links
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        initUsername();
     }
 
     @Override
@@ -118,31 +114,33 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
             return;
         }
 
-        String userID = firebaseAuth.getCurrentUser().getUid();
-        databaseReference.child("Benutzer").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-               setUserName(dataSnapshot.getValue(UserInformation.class).getNickname());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
         //TODO: !!!!!!!!!!!!!!!!!!!!!!! Ein Objekt herausfinden mit UserID, sodass in Firebase nach Object gesucht wird mit der passenden ID
-        String timeStamp = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-        String userName1 = getUserName();
-        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date,  userID, userName1, timeStamp);
+        String userID = firebaseAuth.getCurrentUser().getUid();
+        String creationDate = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date, creationDate, userID, userInformation);
         databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 finish();
                 //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
+//                startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
+                Toast.makeText(getApplicationContext(), "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
             }
         });
-        Toast.makeText(this, "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void initUsername() {
+        String userID = firebaseAuth.getCurrentUser().getUid();
+        databaseReference.child("Benutzer").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               userInformation = dataSnapshot.getValue(UserInformation.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }

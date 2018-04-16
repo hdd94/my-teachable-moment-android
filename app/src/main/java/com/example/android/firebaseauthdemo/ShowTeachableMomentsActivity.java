@@ -15,7 +15,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -129,6 +128,8 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             case R.id.action_sort:
                     Toast.makeText(getApplicationContext(), "Sortiermenü anzeigen (Aktuell, " +
                             "Höchste Bewertung, Meistbewertet)", Toast.LENGTH_SHORT).show();
+                    //TODO: SortBy anzeigen
+                    //https://stackoverflow.com/questions/33260009/style-radio-button-and-text-inside-alertdialog
                 return true;
 
             case R.id.action_settings:
@@ -146,6 +147,30 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
     @Override
     protected void onStart() {
         super.onStart();
+
+
+//        FirebaseRecyclerOptions<TeachableMomentInformation> options =
+//                new FirebaseRecyclerOptions.Builder<TeachableMomentInformation>()
+//                        .setQuery(databaseReference, TeachableMomentInformation.class)
+//                        .build();
+//
+//        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<TeachableMomentInformation, TeachableMomentInformationAdapter.MyViewHolder>(options) {
+//            @Override
+//            public TeachableMomentInformationAdapter. onCreateViewHolder(ViewGroup parent, int viewType) {
+//                // Create a new instance of the ViewHolder, in this case we are using a custom
+//                // layout called R.layout.message for each item
+//                View view = LayoutInflater.from(parent.getContext())
+//                        .inflate(R.layout.message, parent, false);
+//
+//                return new ChatHolder(view);
+//            }
+//
+//            @Override
+//            protected void onBindViewHolder(ChatHolder holder, int position, Chat model) {
+//                // Bind the Chat object to the ChatHolder
+//                // ...
+//            }
+//        };
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {

@@ -69,7 +69,7 @@ public class ShowMenuActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if(view == buttonContactSupport) {
-            Toast.makeText(getApplicationContext(), "Kontaktiere Support...", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, ContactSupportActivity.class));
         }
 
         if(view == buttonShowImpressum) {
@@ -77,9 +77,19 @@ public class ShowMenuActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if(view == buttonLogOut) {
+            Intent i = new Intent(this, ShowTitleScreen.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
             firebaseAuth.signOut();
-            finish();
-            startActivity(new Intent(this, ShowTitleScreen.class));
+
+//            Intent intent = new Intent(this, ShowTitleScreen.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(intent);
+//            finish();
+
+//            Intent intent = new Intent(this, ShowTitleScreen.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(new Intent(this, ShowTitleScreen.class));
         }
     }
 

@@ -22,6 +22,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class RegisterUser2Activity extends AppCompatActivity implements View.OnClickListener{
 
     private Button btnRegister;
@@ -75,14 +78,17 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
 
     private void registerUser() {
 
-
-        String email = editTextEmail.getText().toString().trim();
+        final String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String passwordConfirmed = editTextPasswordConfirmed.getText().toString().trim();
 
         final String nickname = getIntent().getExtras().getString("Nickname");
         final String forename = getIntent().getExtras().getString("Vorname");
         final String surname = getIntent().getExtras().getString("Nachname");
+
+        //TODO: Prüfen, ob Nickname schon evtl. im System ist. Und dies dann sperren
+
+        final String creationDate = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
 
         if(TextUtils.isEmpty(email)) {
             //email is empty
@@ -122,7 +128,7 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
 
                         if (task.isSuccessful()) {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            UserInformation userInformation = new UserInformation(nickname, forename, surname);
+                            UserInformation userInformation = new UserInformation(nickname, forename, surname, email, creationDate);
                             databaseReference.child("Benutzer").child(user.getUid()).setValue(userInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

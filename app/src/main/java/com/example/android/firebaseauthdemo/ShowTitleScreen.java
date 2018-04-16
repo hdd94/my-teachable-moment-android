@@ -1,6 +1,9 @@
 package com.example.android.firebaseauthdemo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -22,7 +26,15 @@ public class ShowTitleScreen extends AppCompatActivity implements View.OnClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        if(!isOnline()) {
+            Toast.makeText(getApplicationContext(), "Bitte schalten Sie das Internet an!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_show_title_screen);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -43,7 +55,7 @@ public class ShowTitleScreen extends AppCompatActivity implements View.OnClickLi
 
         String myTeaM = "<font face='verdana' color='#C61A27'><b>MyTeaM</b><br></font>";
         String hyphen = "-";
-        String myTea = "<font color='#C61A27'><b> MyTea</b></font>";
+        String myTea = "<font color='#C61A27'><b> My Tea</b></font>";
         String chable = "chable";
         String m = "<font color='#C61A27'><b> M</b></font>";
         String oment = "oment ";
@@ -63,5 +75,12 @@ public class ShowTitleScreen extends AppCompatActivity implements View.OnClickLi
         if (view == textViewLogin) {
             startActivity(new Intent(this, LoginUserActivity.class)); //Start new Activity
         }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

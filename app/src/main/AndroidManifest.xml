@@ -3,6 +3,7 @@
     package="com.example.android.firebaseauthdemo">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,7 @@
         android:roundIcon="@mipmap/doctor_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".ShowTeachableMomentsActivity">
+        <activity android:name=".ShowTitleScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +26,7 @@
         <activity android:name=".ForgetPasswordActivity" />
         <activity android:name=".CreateTeachableMomentActivity" />
         <activity android:name=".ShowOneTeachableMomentActivity" />
-        <activity android:name=".ShowTitleScreen"></activity>
+        <activity android:name=".ShowTeachableMomentsActivity"></activity>
         <activity android:name=".ShowMenuActivity"></activity>
         <activity android:name=".ShowImpressum"></activity>
         <activity android:name=".ShowUserRankingMostMomentsActivity"></activity>
@@ -34,6 +35,7 @@
         <activity android:name=".ChangePasswordActivity"></activity>
         <activity android:name=".ReAuthenticateUserActivity"></activity>
         <activity android:name=".ShowMenuUserDataActivity"></activity>
+        <activity android:name=".ContactSupportActivity"></activity>
     </application>
 
 </manifest>

@@ -9,17 +9,64 @@ public class UserInformation {
     public String nickname;
     public String forename;
     public String surname;
+    public String email;
+    public String creationDate;
+
+    public String countTeachableMoments;
+    public int counter;
+    public boolean admin;
 
     public UserInformation() {
 
     }
 
-    public UserInformation(String nickname, String forename, String surname) {
+    public UserInformation(String nickname, String forename, String surname, String email, String creationDate) {
         this.nickname = nickname;
         this.forename = forename;
         this.surname = surname;
+        this.email = email;
+        this.creationDate = creationDate;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getCountTeachableMoments() {
+        return countTeachableMoments;
+    }
+
+    public void setCountTeachableMoments(String countTeachableMoments) {
+        this.countTeachableMoments = countTeachableMoments;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
     public String getNickname() {
         return nickname;
     }

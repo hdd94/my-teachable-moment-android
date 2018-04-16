@@ -94,11 +94,14 @@ public class LoginUserActivity extends AppCompatActivity implements View.OnClick
                         progressBar.setVisibility(View.INVISIBLE);
 
                         if (task.isSuccessful()) {
-                            //start the profile activity
 
-                            finish();
-                            //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                            startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
+                            Intent i = new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(i);
+//
+//                            finish();
+//                            //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
+//                            startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
                         } else {
                             Toast.makeText(getApplicationContext(), "Bitte überprüfen Sie Ihre Anmeldedaten", Toast.LENGTH_SHORT).show();
                         }

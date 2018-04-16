@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_margin="5dp"
-            android:background="@drawable/backwithborder"
+            android:background="@drawable/border_teachable_moment"
             android:gravity="top|left"
             android:hint="Deinen Teachable Moment verfassen... \nWas hast du erlebt? \nWas sind deine Erfahrungen?  \nWas sind deine Erkenntnisse? \nEtc..."
             android:maxLines="11"

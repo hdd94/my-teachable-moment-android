@@ -35,7 +35,7 @@ public class ShowImpressum extends AppCompatActivity{
 
         String myTeaM = "<font face='verdana' color='#C61A27'><b>MyTeaM</b><br></font>";
         String hyphen = "-";
-        String myTea = "<font color='#C61A27'><b> MyTea</b></font>";
+        String myTea = "<font color='#C61A27'><b> My Tea</b></font>";
         String chable = "chable";
         String m = "<font color='#C61A27'><b> M</b></font>";
         String oment = "oment ";

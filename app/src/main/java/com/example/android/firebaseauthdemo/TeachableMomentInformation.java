@@ -100,10 +100,6 @@ package com.example.android.firebaseauthdemo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Date;
-
 /**
  * Created by duc on 17.02.18.
  */
@@ -115,26 +111,75 @@ public class TeachableMomentInformation implements Parcelable {
     public String teachableMoment;
     public String place;
     public String date;
-    public String userID;
-    public String userName;
     public String creationDate;
+    public String userID;
+    public UserInformation userInformation;
 
-
+    public float averageRating;
+    public int countRatings;
+    public int counter;
+    public boolean confirmed;
 
     public TeachableMomentInformation() {
 
     }
 
-    public TeachableMomentInformation(String id, String title, String teachableMoment, String place, String date, String user, String userName, String creationDate) {
+    public TeachableMomentInformation(String id, String title, String teachableMoment, String place, String date, String creationDate, String userID, UserInformation userInformation) {
         this.id = id;
         this.title = title;
         this.teachableMoment = teachableMoment;
         this.place = place;
         this.date = date;
-        this.userID = user;
-        this.userName = userName;
         this.creationDate = creationDate;
+        this.userID = userID;
+        this.userInformation = userInformation;
     }
+
+    protected TeachableMomentInformation(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        teachableMoment = in.readString();
+        place = in.readString();
+        date = in.readString();
+        creationDate = in.readString();
+        userID = in.readString();
+        averageRating = in.readFloat();
+        countRatings = in.readInt();
+        counter = in.readInt();
+        confirmed = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(teachableMoment);
+        dest.writeString(place);
+        dest.writeString(date);
+        dest.writeString(creationDate);
+        dest.writeString(userID);
+        dest.writeFloat(averageRating);
+        dest.writeInt(countRatings);
+        dest.writeInt(counter);
+        dest.writeByte((byte) (confirmed ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<TeachableMomentInformation> CREATOR = new Creator<TeachableMomentInformation>() {
+        @Override
+        public TeachableMomentInformation createFromParcel(Parcel in) {
+            return new TeachableMomentInformation(in);
+        }
+
+        @Override
+        public TeachableMomentInformation[] newArray(int size) {
+            return new TeachableMomentInformation[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -176,20 +221,6 @@ public class TeachableMomentInformation implements Parcelable {
         this.date = date;
     }
 
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {this.userName = userName;}
-
     public String getCreationDate() {
         return creationDate;
     }
@@ -198,44 +229,51 @@ public class TeachableMomentInformation implements Parcelable {
         this.creationDate = creationDate;
     }
 
-    protected TeachableMomentInformation(Parcel in) {
-        id = in.readString();
-        title = in.readString();
-        teachableMoment = in.readString();
-        place = in.readString();
-        date = in.readString();
-        userID = in.readString();
-        userName = in.readString();
-        creationDate = in.readString();
+    public String getUserID() {
+        return userID;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(title);
-        dest.writeString(teachableMoment);
-        dest.writeString(place);
-        dest.writeString(date);
-        dest.writeString(userID);
-        dest.writeString(userName);
-        dest.writeString(creationDate);
+    public UserInformation getUserInformation() {
+        return userInformation;
     }
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<TeachableMomentInformation> CREATOR = new Parcelable.Creator<TeachableMomentInformation>() {
-        @Override
-        public TeachableMomentInformation createFromParcel(Parcel in) {
-            return new TeachableMomentInformation(in);
-        }
+    public void setUserInformation(UserInformation userInformation) {
+        this.userInformation = userInformation;
+    }
 
-        @Override
-        public TeachableMomentInformation[] newArray(int size) {
-            return new TeachableMomentInformation[size];
-        }
-    };
+    public float getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(float averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public int getCountRatings() {
+        return countRatings;
+    }
+
+    public void setCountRatings(int countRatings) {
+        this.countRatings = countRatings;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
 }
