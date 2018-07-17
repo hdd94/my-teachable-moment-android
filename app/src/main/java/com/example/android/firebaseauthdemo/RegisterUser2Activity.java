@@ -128,7 +128,7 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
 
                         if (task.isSuccessful()) {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            UserInformation userInformation = new UserInformation(nickname, forename, surname, email, creationDate);
+                            _UserInformation userInformation = new _UserInformation(nickname, forename, surname, email, creationDate);
                             databaseReference.child("Benutzer").child(user.getUid()).setValue(userInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

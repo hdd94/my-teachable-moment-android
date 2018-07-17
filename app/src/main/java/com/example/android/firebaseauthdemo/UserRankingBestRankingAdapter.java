@@ -14,7 +14,7 @@ import java.util.List;
 
 public class UserRankingBestRankingAdapter extends RecyclerView.Adapter <UserRankingBestRankingAdapter.MyViewHolder> {
 
-    private List<UserInformation> uList;
+    private List<_UserInformation> uList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView nickname, titel, rating;
@@ -28,7 +28,7 @@ public class UserRankingBestRankingAdapter extends RecyclerView.Adapter <UserRan
     }
 
 
-    public UserRankingBestRankingAdapter(List<UserInformation> uList) {
+    public UserRankingBestRankingAdapter(List<_UserInformation> uList) {
         this.uList = uList;
     }
 
@@ -42,7 +42,7 @@ public class UserRankingBestRankingAdapter extends RecyclerView.Adapter <UserRan
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        UserInformation um = uList.get(position);
+        _UserInformation um = uList.get(position);
         holder.nickname.setText(um.getNickname());
         holder.titel.setText("Titel des Beitrags");
         holder.rating.setText("Ø4,93");

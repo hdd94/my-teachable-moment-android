@@ -8,7 +8,7 @@
 // * Created by duc on 17.02.18.
 // */
 //
-//public class TeachableMomentInformation {
+//public class _TeachableMomentInformation {
 //
 //    public String id;
 //    public String nickname;
@@ -20,11 +20,11 @@
 //
 //
 //
-//    public TeachableMomentInformation() {
+//    public _TeachableMomentInformation() {
 //
 //    }
 //
-//    public TeachableMomentInformation(String id, String nickname, String teachableMoment, String place, String date, String titel, String creationDate) {
+//    public _TeachableMomentInformation(String id, String nickname, String teachableMoment, String place, String date, String titel, String creationDate) {
 //        this.id = id;
 //        this.nickname = nickname;
 //        this.teachableMoment = teachableMoment;
@@ -104,7 +104,7 @@ import android.os.Parcelable;
  * Created by duc on 17.02.18.
  */
 
-public class TeachableMomentInformation implements Parcelable {
+public class _TeachableMomentInformation implements Parcelable {
 
     public String id;
     public String title;
@@ -113,18 +113,18 @@ public class TeachableMomentInformation implements Parcelable {
     public String date;
     public String creationDate;
     public String userID;
-    public UserInformation userInformation;
+    public _UserInformation userInformation;
 
     public float averageRating;
     public int countRatings;
     public int counter;
     public boolean confirmed;
 
-    public TeachableMomentInformation() {
+    public _TeachableMomentInformation() {
 
     }
 
-    public TeachableMomentInformation(String id, String title, String teachableMoment, String place, String date, String creationDate, String userID, UserInformation userInformation) {
+    public _TeachableMomentInformation(String id, String title, String teachableMoment, String place, String date, String creationDate, String userID, _UserInformation userInformation) {
         this.id = id;
         this.title = title;
         this.teachableMoment = teachableMoment;
@@ -135,7 +135,7 @@ public class TeachableMomentInformation implements Parcelable {
         this.userInformation = userInformation;
     }
 
-    protected TeachableMomentInformation(Parcel in) {
+    protected _TeachableMomentInformation(Parcel in) {
         id = in.readString();
         title = in.readString();
         teachableMoment = in.readString();
@@ -169,15 +169,15 @@ public class TeachableMomentInformation implements Parcelable {
         return 0;
     }
 
-    public static final Creator<TeachableMomentInformation> CREATOR = new Creator<TeachableMomentInformation>() {
+    public static final Creator<_TeachableMomentInformation> CREATOR = new Creator<_TeachableMomentInformation>() {
         @Override
-        public TeachableMomentInformation createFromParcel(Parcel in) {
-            return new TeachableMomentInformation(in);
+        public _TeachableMomentInformation createFromParcel(Parcel in) {
+            return new _TeachableMomentInformation(in);
         }
 
         @Override
-        public TeachableMomentInformation[] newArray(int size) {
-            return new TeachableMomentInformation[size];
+        public _TeachableMomentInformation[] newArray(int size) {
+            return new _TeachableMomentInformation[size];
         }
     };
 
@@ -237,11 +237,11 @@ public class TeachableMomentInformation implements Parcelable {
         this.userID = userID;
     }
 
-    public UserInformation getUserInformation() {
+    public _UserInformation getUserInformation() {
         return userInformation;
     }
 
-    public void setUserInformation(UserInformation userInformation) {
+    public void setUserInformation(_UserInformation userInformation) {
         this.userInformation = userInformation;
     }
 

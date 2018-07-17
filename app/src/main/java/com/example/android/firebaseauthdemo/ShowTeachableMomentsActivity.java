@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -38,7 +37,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
     private RecyclerView recyclerView;
     private TeachableMomentInformationAdapter mAdapter;
-    List<TeachableMomentInformation> tmList = new ArrayList<>();
+    List<_TeachableMomentInformation> tmList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +89,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                TeachableMomentInformation tm = tmList.get(position);
+                _TeachableMomentInformation tm = tmList.get(position);
 //                Toast.makeText(getApplicationContext(), tm.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
 
                 callTeachableMoment(tm);
@@ -149,12 +148,12 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         super.onStart();
 
 
-//        FirebaseRecyclerOptions<TeachableMomentInformation> options =
-//                new FirebaseRecyclerOptions.Builder<TeachableMomentInformation>()
-//                        .setQuery(databaseReference, TeachableMomentInformation.class)
+//        FirebaseRecyclerOptions<_TeachableMomentInformation> options =
+//                new FirebaseRecyclerOptions.Builder<_TeachableMomentInformation>()
+//                        .setQuery(databaseReference, _TeachableMomentInformation.class)
 //                        .build();
 //
-//        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<TeachableMomentInformation, TeachableMomentInformationAdapter.MyViewHolder>(options) {
+//        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<_TeachableMomentInformation, TeachableMomentInformationAdapter.MyViewHolder>(options) {
 //            @Override
 //            public TeachableMomentInformationAdapter. onCreateViewHolder(ViewGroup parent, int viewType) {
 //                // Create a new instance of the ViewHolder, in this case we are using a custom
@@ -178,7 +177,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             public void onDataChange(DataSnapshot dataSnapshot) {
                 tmList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    TeachableMomentInformation tm = postSnapshot.getValue(TeachableMomentInformation.class);
+                    _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
                     tmList.add(tm);
                 }
 
@@ -195,7 +194,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         });
     }
 
-    private void callTeachableMoment(TeachableMomentInformation tm) {
+    private void callTeachableMoment(_TeachableMomentInformation tm) {
 
         Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
         intent.putExtra("TeachableMoment", tm);

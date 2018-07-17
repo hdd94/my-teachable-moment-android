@@ -34,7 +34,7 @@ public class ShowUserRankingMostMomentsActivity extends AppCompatActivity implem
     private RecyclerView recyclerView;
     //TODO: TeachableMoment anzeigen mit User anzeigen wechseln!
     private UserRankingMostMomentsAdapter mAdapter;
-    List<UserInformation> umList = new ArrayList<>();
+    List<_UserInformation> umList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class ShowUserRankingMostMomentsActivity extends AppCompatActivity implem
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                UserInformation um = umList.get(position);
+                _UserInformation um = umList.get(position);
                 Toast.makeText(getApplicationContext(), um.getNickname() + " is selected!", Toast.LENGTH_SHORT).show();
 
 //                callTeachableMoment(tm);
@@ -119,7 +119,7 @@ public class ShowUserRankingMostMomentsActivity extends AppCompatActivity implem
             public void onDataChange(DataSnapshot dataSnapshot) {
                 umList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    UserInformation um = postSnapshot.getValue(UserInformation.class);
+                    _UserInformation um = postSnapshot.getValue(_UserInformation.class);
                     umList.add(um);
                 }
 
@@ -136,7 +136,7 @@ public class ShowUserRankingMostMomentsActivity extends AppCompatActivity implem
         });
     }
 
-//    private void callTeachableMoment(TeachableMomentInformation tm) {
+//    private void callTeachableMoment(_TeachableMomentInformation tm) {
 //
 //        Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
 //        intent.putExtra("TeachableMoment", tm);

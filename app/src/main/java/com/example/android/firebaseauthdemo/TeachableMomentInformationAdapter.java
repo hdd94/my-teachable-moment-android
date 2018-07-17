@@ -14,7 +14,7 @@ import java.util.List;
 
 public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <TeachableMomentInformationAdapter.MyViewHolder> {
 
-    private List<TeachableMomentInformation> tmList;
+    private List<_TeachableMomentInformation> tmList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, rating, user;
@@ -28,7 +28,7 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
     }
 
 
-    public TeachableMomentInformationAdapter(List<TeachableMomentInformation> tmList) {
+    public TeachableMomentInformationAdapter(List<_TeachableMomentInformation> tmList) {
         this.tmList = tmList;
     }
 
@@ -42,7 +42,7 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TeachableMomentInformation tm = tmList.get(position);
+        _TeachableMomentInformation tm = tmList.get(position);
         holder.title.setText(tm.getTitle());
         try {
             holder.user.setText(tm.getUserInformation().getNickname());

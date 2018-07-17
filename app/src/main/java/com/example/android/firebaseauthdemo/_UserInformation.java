@@ -4,7 +4,7 @@ package com.example.android.firebaseauthdemo;
  * Created by Duc on 22.10.17.
  */
 
-public class UserInformation {
+public class _UserInformation {
 
     public String nickname;
     public String forename;
@@ -16,11 +16,11 @@ public class UserInformation {
     public int counter;
     public boolean admin;
 
-    public UserInformation() {
+    public _UserInformation() {
 
     }
 
-    public UserInformation(String nickname, String forename, String surname, String email, String creationDate) {
+    public _UserInformation(String nickname, String forename, String surname, String email, String creationDate) {
         this.nickname = nickname;
         this.forename = forename;
         this.surname = surname;

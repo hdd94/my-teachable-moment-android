@@ -5,24 +5,27 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ShowOneTeachableMomentActivity extends AppCompatActivity{
 
     private EditText editTextTitle;
+    private EditText editTextRating;
     private EditText editTextTeachableMoment;
     private EditText editTextPlace;
     private EditText editTextDate;
@@ -32,7 +35,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
-    private TeachableMomentInformation tm;
+    private _TeachableMomentInformation tm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +54,9 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextTitle.setEnabled(false);
+        editTextRating = (EditText) findViewById(R.id.editTextRating);
+        editTextRating.setEnabled(false);
         editTextTeachableMoment = (EditText) findViewById(R.id.editTextTeachableMoment);
-//        editTextTeachableMoment.setEnabled(false);
         editTextTeachableMoment.setKeyListener(null);
         editTextPlace = (EditText) findViewById(R.id.editTextPlace);
         editTextPlace.setEnabled(false);
@@ -66,22 +70,84 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        tm = (TeachableMomentInformation) getIntent().getParcelableExtra("TeachableMoment");
+        tm = (_TeachableMomentInformation) getIntent().getParcelableExtra("TeachableMoment");
         editTextTitle.setText(tm.getTitle());
+        editTextRating.setText("Ø" + String.valueOf(tm.getAverageRating()));
+        editTextRating.setTextColor(Color.GRAY);
         editTextTeachableMoment.setText(tm.getTeachableMoment());
         editTextPlace.setText(tm.getPlace());
         editTextDate.setText(tm.getDate());
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        final DatabaseReference dbRating = databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("ratings");
+        boolean userHasRated = false;
+
+        dbRating.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userID = firebaseAuth.getCurrentUser().getUid();
+                boolean existUserID;
+
+                for(DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()){
+                    existUserID = uniqueKeySnapshot.getValue().toString().contains(userID);
+
+                    if (existUserID) {
+                        _RatingInformation r = uniqueKeySnapshot.getValue(_RatingInformation.class);
+                        ratingBar.setRating(((float) r.getRating()));
+                        ratingBar.setIsIndicator(true);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                Toast.makeText(getApplicationContext(), "Stars: " + (int)rating, Toast.LENGTH_SHORT).show();
-                databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("ratings");
-                Toast.makeText(getApplicationContext(), "Beitrag wurde erfolgreich bewertet.", Toast.LENGTH_SHORT).show();
-                //TODO: Bewertung speichern --> Durchschnittsbewertung berechnen
-//                databaseReference.child("Benutzer").child(titel.getUid()).setValue(userInformation);
-                //TODO: Bewertung als Extra-Objekt wie TeachableMoments etc. speichern.
+                final int ratingINT = (int) rating;
+                //Überlegen, ob User nachträglich Rating verändern sollte, da Admin dann ändern kann.
+                //Implementieren, wenn ratingID vorhanden ist, dann braucht man keine neue zu erstellen (Ändern der Bewertung)
+                String ratingID = dbRating.push().getKey();
+                String userID = firebaseAuth.getCurrentUser().getUid();
+                String creationDate = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+                _RatingInformation ratingInformation = new _RatingInformation(ratingINT, ratingID, userID, creationDate);
+
+                dbRating.child(ratingInformation.getUserID()).setValue(ratingInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        updateAverageRating(ratingINT, dbRating);
+                    }
+                });
+            }
+        });
+    }
+
+    // Summarize ratings, calculate average(rounded) and set DB
+    private void updateAverageRating(int ratingINT, DatabaseReference dbRating) {
+        dbRating.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                double average = 0.0;
+                double total = 0.0;
+                double count = 0.0;
+
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    double rating = Double.parseDouble(ds.child("rating").getValue().toString());
+                    total = total + rating;
+                    count = count + 1;
+                    average = Math.floor((total / count) * 100) / 100;
+                }
+                databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("averageRating").setValue(average);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
@@ -91,47 +157,4 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
         onBackPressed();
         return true;
     }
-
-//    private void saveTeachableMoment () {
-//
-//        String id = databaseReference.push().getKey();
-//        String nickname = editTextTitle.getText().toString();
-//        String teachableMoment = editTextTeachableMoment.getText().toString();
-//        String place = editTextPlace.getText().toString();
-//        String date = editTextDate.getText().toString();
-//        // TODO: Datepicker einbauen
-//
-//        if(TextUtils.isEmpty(nickname)) {
-//            Toast.makeText(this, "Bitte gebe einen Titel ein.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        if(TextUtils.isEmpty(teachableMoment)) {
-//            Toast.makeText(this, "Bitte gebe ein Teachable Moment ein.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        if(TextUtils.isEmpty(place)) {
-//            Toast.makeText(this, "Bitte gebe einen Ort ein.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        if(TextUtils.isEmpty(date)) {
-//            Toast.makeText(this, "Bitte gebe ein Datum ein.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        String userID = firebaseAuth.getCurrentUser().getUid();
-//        String timeStamp = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-//        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, nickname, teachableMoment, place, date, userID, timeStamp);
-//        databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                finish();
-//                //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-//                startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
-//            }
-//        });
-//        Toast.makeText(this, "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
-//    }
 }

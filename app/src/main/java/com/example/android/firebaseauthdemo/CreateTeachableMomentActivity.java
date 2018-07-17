@@ -2,11 +2,9 @@ package com.example.android.firebaseauthdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CreateTeachableMomentActivity extends AppCompatActivity implements View.OnClickListener{
@@ -36,7 +33,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
-    private UserInformation userInformation;
+    private _UserInformation userInformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +114,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         //TODO: !!!!!!!!!!!!!!!!!!!!!!! Ein Objekt herausfinden mit UserID, sodass in Firebase nach Object gesucht wird mit der passenden ID
         String userID = firebaseAuth.getCurrentUser().getUid();
         String creationDate = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-        TeachableMomentInformation teachableMomentInformation = new TeachableMomentInformation(id, title, teachableMoment, place, date, creationDate, userID, userInformation);
+        _TeachableMomentInformation teachableMomentInformation = new _TeachableMomentInformation(id, title, teachableMoment, place, date, creationDate, userID, userInformation);
         databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -135,7 +132,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-               userInformation = dataSnapshot.getValue(UserInformation.class);
+               userInformation = dataSnapshot.getValue(_UserInformation.class);
             }
 
             @Override
