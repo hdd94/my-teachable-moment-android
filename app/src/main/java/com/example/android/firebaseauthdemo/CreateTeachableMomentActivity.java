@@ -1,13 +1,17 @@
 package com.example.android.firebaseauthdemo;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,14 +22,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class CreateTeachableMomentActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText editTextTitle;
     private EditText editTextTeachableMoment;
-    private EditText editTextPlace;
     private EditText editTextDate;
     private Button btnSave;
     private Toolbar toolbar;
@@ -34,6 +40,8 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
     private DatabaseReference databaseReference;
 
     private _UserInformation userInformation;
+
+    DatePickerDialog datePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +60,9 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextTeachableMoment = (EditText) findViewById(R.id.editTextTeachableMoment);
-        editTextPlace = (EditText) findViewById(R.id.editTextPlace);
         editTextDate = (EditText) findViewById(R.id.editTextDate);
+        editTextDate.setHint(new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()));
+        editTextDate.setOnClickListener(this);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
 
@@ -73,6 +82,9 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         if(view == btnSave) {
             saveTeachableMoment();
         }
+        if(view == editTextDate) {
+            showDatePickerDialog();
+        }
     }
 
     @Override
@@ -86,9 +98,15 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         String id = databaseReference.push().getKey();
         String title = editTextTitle.getText().toString();
         String teachableMoment = editTextTeachableMoment.getText().toString();
-        String place = editTextPlace.getText().toString();
         String date = editTextDate.getText().toString();
-        // TODO: Datepicker einbauen
+//        DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+//        Date date = null;
+//        try {
+//            date = format.parse(dateString);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        Log.d("", "saveTeachableMoment: " + date);
 
         if(TextUtils.isEmpty(title)) {
             Toast.makeText(this, "Bitte gebe einen Titel ein.", Toast.LENGTH_SHORT).show();
@@ -101,20 +119,10 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
             return;
         }
 
-        if(TextUtils.isEmpty(place)) {
-            Toast.makeText(this, "Bitte gebe einen Ort ein.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(date)) {
-            Toast.makeText(this, "Bitte gebe ein Datum ein.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         //TODO: !!!!!!!!!!!!!!!!!!!!!!! Ein Objekt herausfinden mit UserID, sodass in Firebase nach Object gesucht wird mit der passenden ID
         String userID = firebaseAuth.getCurrentUser().getUid();
         String creationDate = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-        _TeachableMomentInformation teachableMomentInformation = new _TeachableMomentInformation(id, title, teachableMoment, place, date, creationDate, userID, userInformation);
+        _TeachableMomentInformation teachableMomentInformation = new _TeachableMomentInformation(id, title, teachableMoment, date, creationDate, userID, userInformation);
         databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -139,5 +147,24 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    public void showDatePickerDialog() {
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR); // current year
+        int mMonth = c.get(Calendar.MONTH); // current month
+        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        // date picker dialog
+        datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        editTextDate.setText(dayOfMonth + "."
+                                + (monthOfYear + 1) + "." + year);
+
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 }

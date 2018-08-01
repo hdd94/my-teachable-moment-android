@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -17,7 +19,7 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
     private List<_TeachableMomentInformation> tmList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, rating, user;
+        public TextView title, user, rating;
 
         public MyViewHolder(View view) {
             super(view);
@@ -45,11 +47,11 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
         _TeachableMomentInformation tm = tmList.get(position);
         holder.title.setText(tm.getTitle());
         try {
-            holder.user.setText(tm.getUserInformation().getNickname());
+//            holder.user.setText(tm.getUserInformation().getNickname());
+            holder.user.setText(tm.getDate());
         } catch (NullPointerException npe) {
             // It's fine if findUser throws a NPE
         }
-//        holder.rating.setText("#00");
     }
 
     @Override

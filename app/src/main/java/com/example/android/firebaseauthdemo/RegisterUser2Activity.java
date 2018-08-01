@@ -132,9 +132,9 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
                             databaseReference.child("Benutzer").child(user.getUid()).setValue(userInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
                                     finish();
                                     //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                                    startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
                                 }
                             });
                         } else {

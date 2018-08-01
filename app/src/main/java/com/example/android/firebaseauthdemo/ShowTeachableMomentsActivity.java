@@ -1,7 +1,9 @@
 package com.example.android.firebaseauthdemo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -21,8 +23,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ShowTeachableMomentsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,7 +40,13 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
     private ImageButton buttonCreate;
     private ImageButton buttonRanking;
-    private ListView listViewTeacheableMoments;
+
+    private AlertDialog alertDialogSort;
+    private CharSequence[] sort_values = {"  Aktuelle Beiträge","  Höchste Bewertung","  Meiste Bewertungen"};
+
+    private boolean ascendingCurrent = true;
+    private boolean ascendingHighest = true;
+    private boolean ascendingMost = true;
 
     private Toolbar toolbar;
 
@@ -57,41 +72,23 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         buttonCreate.setOnClickListener(this);
         buttonRanking = (ImageButton) findViewById(R.id.imageButtonUserRanking);
         buttonRanking.setOnClickListener(this);
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         toolbar.setTitle("Teachable Moments");
         setSupportActionBar(toolbar);
 
         recyclerView.setHasFixedSize(true);
 
-        // vertical RecyclerView
-        // keep movie_list_row.xml width to `match_parent`
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
-        // horizontal RecyclerView
-        // keep movie_list_row.xml width to `wrap_content`
-        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-
         recyclerView.setLayoutManager(mLayoutManager);
-
-        // adding inbuilt divider line
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-
-        // adding custom divider line with padding 16dp
-        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
 
-//        recyclerView.setAdapter(mAdapter);
-
-        // row click listener
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 _TeachableMomentInformation tm = tmList.get(position);
-//                Toast.makeText(getApplicationContext(), tm.getTitle() + " is selected!", Toast.LENGTH_SHORT).show();
-
                 callTeachableMoment(tm);
             }
 
@@ -100,6 +97,12 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
             }
         }));
+    }
+
+    private void callTeachableMoment(_TeachableMomentInformation tm) {
+        Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
+        intent.putExtra("TeachableMoment", tm);
+        startActivity(intent);
     }
 
     @Override
@@ -125,10 +128,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort:
-                    Toast.makeText(getApplicationContext(), "Sortiermenü anzeigen (Aktuell, " +
-                            "Höchste Bewertung, Meistbewertet)", Toast.LENGTH_SHORT).show();
-                    //TODO: SortBy anzeigen
-                    //https://stackoverflow.com/questions/33260009/style-radio-button-and-text-inside-alertdialog
+                showAlertDialogSort();
                 return true;
 
             case R.id.action_settings:
@@ -136,41 +136,14 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
                 return true;
 
             default:
-                // If we got here, the titel's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
+    // Elemente von der Datenbank werden in die Liste geaddet
     @Override
     protected void onStart() {
         super.onStart();
-
-
-//        FirebaseRecyclerOptions<_TeachableMomentInformation> options =
-//                new FirebaseRecyclerOptions.Builder<_TeachableMomentInformation>()
-//                        .setQuery(databaseReference, _TeachableMomentInformation.class)
-//                        .build();
-//
-//        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<_TeachableMomentInformation, TeachableMomentInformationAdapter.MyViewHolder>(options) {
-//            @Override
-//            public TeachableMomentInformationAdapter. onCreateViewHolder(ViewGroup parent, int viewType) {
-//                // Create a new instance of the ViewHolder, in this case we are using a custom
-//                // layout called R.layout.message for each item
-//                View view = LayoutInflater.from(parent.getContext())
-//                        .inflate(R.layout.message, parent, false);
-//
-//                return new ChatHolder(view);
-//            }
-//
-//            @Override
-//            protected void onBindViewHolder(ChatHolder holder, int position, Chat model) {
-//                // Bind the Chat object to the ChatHolder
-//                // ...
-//            }
-//        };
-
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -194,14 +167,71 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         });
     }
 
-    private void callTeachableMoment(_TeachableMomentInformation tm) {
+    public void showAlertDialogSort(){
 
-        Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
-        intent.putExtra("TeachableMoment", tm);
-        startActivity(intent);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Sortieren nach...");
+        builder.setItems(sort_values, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch(i)
+                {
+                    case 0: //Aktuellste Beiträge
+                        sortDataCurrent(ascendingCurrent);
+                        ascendingCurrent = !ascendingCurrent;
+                        break;
+
+                    case 1: //Höchstbewertete Beiträge
+                        sortDataCurrent(ascendingCurrent);
+                        ascendingCurrent = !ascendingCurrent;
+                        break;
+
+                    case 2: //Meistbewertete Beiträge
+
+                        Toast.makeText(getApplicationContext(), "Third Item Clicked", Toast.LENGTH_LONG).show();
+                        break;
+                }
+                alertDialogSort.dismiss();
+            }
+        });
+        alertDialogSort = builder.create();
+        alertDialogSort.show();
 
     }
-    //TODO: RecyclerViews sortieren
 
+    private void sortDataCurrent(boolean ascendingCurrent) {
+        if(ascendingCurrent) {
+            Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
+                public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
+                    Date[] dateArray = parseStringToDate(t1.getDate(), t2.getDate());
+                    if (dateArray[0] == null || dateArray[1] == null)
+                        return 0;
+                    return dateArray[0].compareTo(dateArray[1]);
+                }
+            });
+        }
+        else {
+            Collections.reverse(tmList);
+        }
 
+        mAdapter = new TeachableMomentInformationAdapter(tmList);
+        mAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    private Date[] parseStringToDate(String d1, String d2) {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+        Date _d1 = null;
+        Date _d2 = null;
+        try {
+            _d1 = format.parse(d1);
+            _d2 = format.parse(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date[] dateArray = {_d1, _d2};
+        return dateArray;
+    }
 }

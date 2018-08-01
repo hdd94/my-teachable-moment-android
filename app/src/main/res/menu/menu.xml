@@ -7,7 +7,19 @@
         android:id="@+id/action_sort"
         android:icon="@drawable/ic_filter_list_black_48dp"
         android:title="Sort"
-        app:showAsAction="always"/>
+        app:showAsAction="always">
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/action_sort_actualRanking"-->
+                <!--android:title="Aktuellste Beiträge" />-->
+            <!--<item-->
+                <!--android:id="@+id/action_sort_highestRanking"-->
+                <!--android:title="Höchste Bewertungen" />-->
+            <!--<item-->
+                <!--android:id="@+id/action_sort_mostRanking"-->
+                <!--android:title="Meiste Bewertungen" />-->
+        <!--</menu>-->
+    </item>
 
     <!-- Settings, should always be in the overflow -->
     <item

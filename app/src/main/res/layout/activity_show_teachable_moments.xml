@@ -41,7 +41,7 @@
             android:layout_margin="5dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        </LinearLayout>
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/imageButtonUserRanking"

@@ -27,7 +27,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
     private EditText editTextTitle;
     private EditText editTextRating;
     private EditText editTextTeachableMoment;
-    private EditText editTextPlace;
+    private EditText editTextAuthor;
     private EditText editTextDate;
     private RatingBar ratingBar;
     private Toolbar toolbar;
@@ -58,8 +58,8 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
         editTextRating.setEnabled(false);
         editTextTeachableMoment = (EditText) findViewById(R.id.editTextTeachableMoment);
         editTextTeachableMoment.setKeyListener(null);
-        editTextPlace = (EditText) findViewById(R.id.editTextPlace);
-        editTextPlace.setEnabled(false);
+        editTextAuthor = (EditText) findViewById(R.id.editTextAuthor);
+        editTextAuthor.setEnabled(false);
         editTextDate = (EditText) findViewById(R.id.editTextDate);
         editTextDate.setEnabled(false);
 
@@ -75,8 +75,9 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
         editTextRating.setText("Ø" + String.valueOf(tm.getAverageRating()));
         editTextRating.setTextColor(Color.GRAY);
         editTextTeachableMoment.setText(tm.getTeachableMoment());
-        editTextPlace.setText(tm.getPlace());
-        editTextDate.setText(tm.getDate());
+        _UserInformation x = tm.getUserInformation();
+        editTextAuthor.setText(x.getNickname());
+        editTextDate.setText(tm.getDate().toString());
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         final DatabaseReference dbRating = databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("ratings");

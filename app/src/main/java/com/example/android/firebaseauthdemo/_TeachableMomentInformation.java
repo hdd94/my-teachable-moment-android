@@ -109,7 +109,6 @@ public class _TeachableMomentInformation implements Parcelable {
     public String id;
     public String title;
     public String teachableMoment;
-    public String place;
     public String date;
     public String creationDate;
     public String userID;
@@ -124,11 +123,10 @@ public class _TeachableMomentInformation implements Parcelable {
 
     }
 
-    public _TeachableMomentInformation(String id, String title, String teachableMoment, String place, String date, String creationDate, String userID, _UserInformation userInformation) {
+    public _TeachableMomentInformation(String id, String title, String teachableMoment, String date, String creationDate, String userID, _UserInformation userInformation) {
         this.id = id;
         this.title = title;
         this.teachableMoment = teachableMoment;
-        this.place = place;
         this.date = date;
         this.creationDate = creationDate;
         this.userID = userID;
@@ -139,7 +137,6 @@ public class _TeachableMomentInformation implements Parcelable {
         id = in.readString();
         title = in.readString();
         teachableMoment = in.readString();
-        place = in.readString();
         date = in.readString();
         creationDate = in.readString();
         userID = in.readString();
@@ -154,7 +151,6 @@ public class _TeachableMomentInformation implements Parcelable {
         dest.writeString(id);
         dest.writeString(title);
         dest.writeString(teachableMoment);
-        dest.writeString(place);
         dest.writeString(date);
         dest.writeString(creationDate);
         dest.writeString(userID);
@@ -203,14 +199,6 @@ public class _TeachableMomentInformation implements Parcelable {
 
     public void setTeachableMoment(String teachableMoment) {
         this.teachableMoment = teachableMoment;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
     }
 
     public String getDate() {

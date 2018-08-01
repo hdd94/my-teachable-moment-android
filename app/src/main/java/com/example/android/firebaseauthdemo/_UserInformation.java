@@ -12,10 +12,6 @@ public class _UserInformation {
     public String email;
     public String creationDate;
 
-    public String countTeachableMoments;
-    public int counter;
-    public boolean admin;
-
     public _UserInformation() {
 
     }
@@ -44,29 +40,6 @@ public class _UserInformation {
         this.creationDate = creationDate;
     }
 
-    public String getCountTeachableMoments() {
-        return countTeachableMoments;
-    }
-
-    public void setCountTeachableMoments(String countTeachableMoments) {
-        this.countTeachableMoments = countTeachableMoments;
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
     public String getNickname() {
         return nickname;
     }
