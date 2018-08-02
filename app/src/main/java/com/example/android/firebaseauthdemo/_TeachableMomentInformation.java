@@ -1,100 +1,3 @@
-//package com.example.android.firebaseauthdemo;
-//
-//import com.google.firebase.auth.FirebaseUser;
-//
-//import java.util.Date;
-//
-///**
-// * Created by duc on 17.02.18.
-// */
-//
-//public class _TeachableMomentInformation {
-//
-//    public String id;
-//    public String nickname;
-//    public String teachableMoment;
-//    public String place;
-//    public String date;
-//    public String userID;
-//    public String creationDate;
-//
-//
-//
-//    public _TeachableMomentInformation() {
-//
-//    }
-//
-//    public _TeachableMomentInformation(String id, String nickname, String teachableMoment, String place, String date, String titel, String creationDate) {
-//        this.id = id;
-//        this.nickname = nickname;
-//        this.teachableMoment = teachableMoment;
-//        this.place = place;
-//        this.date = date;
-//        this.userID = titel;
-//        this.creationDate = creationDate;
-//    }
-//
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
-//
-//    public String getTitle() {
-//        return nickname;
-//    }
-//
-//    public void setTitle(String nickname) {
-//        this.nickname = nickname;
-//    }
-//
-//    public String getTeachableMoment() {
-//        return teachableMoment;
-//    }
-//
-//    public void setTeachableMoment(String teachableMoment) {
-//        this.teachableMoment = teachableMoment;
-//    }
-//
-//    public String getPlace() {
-//        return place;
-//    }
-//
-//    public void setPlace(String place) {
-//        this.place = place;
-//    }
-//
-//    public String getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(String date) {
-//        this.date = date;
-//    }
-//
-//    public String getUserID() {
-//        return userID;
-//    }
-//
-//    public void setUserID(String userID) {
-//        this.userID = userID;
-//    }
-//
-//    public String getCreationDate() {
-//        return creationDate;
-//    }
-//
-//    public void setCreationDate(String creationDate) {
-//        this.creationDate = creationDate;
-//    }
-//}
-
-
-
-
-
 package com.example.android.firebaseauthdemo;
 
 import android.os.Parcel;
@@ -112,7 +15,7 @@ public class _TeachableMomentInformation implements Parcelable {
     public String date;
     public String creationDate;
     public String userID;
-    public _UserInformation userInformation;
+    public String userNickname;
 
     public float averageRating;
     public int countRatings;
@@ -123,14 +26,14 @@ public class _TeachableMomentInformation implements Parcelable {
 
     }
 
-    public _TeachableMomentInformation(String id, String title, String teachableMoment, String date, String creationDate, String userID, _UserInformation userInformation) {
+    public _TeachableMomentInformation(String id, String title, String teachableMoment, String date, String creationDate, String userID, String userNickname) {
         this.id = id;
         this.title = title;
         this.teachableMoment = teachableMoment;
         this.date = date;
         this.creationDate = creationDate;
         this.userID = userID;
-        this.userInformation = userInformation;
+        this.userNickname = userNickname;
     }
 
     protected _TeachableMomentInformation(Parcel in) {
@@ -225,12 +128,12 @@ public class _TeachableMomentInformation implements Parcelable {
         this.userID = userID;
     }
 
-    public _UserInformation getUserInformation() {
-        return userInformation;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public void setUserInformation(_UserInformation userInformation) {
-        this.userInformation = userInformation;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
     }
 
     public float getAverageRating() {

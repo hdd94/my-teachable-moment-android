@@ -5,10 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,7 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -27,7 +24,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
     private EditText editTextTitle;
     private EditText editTextRating;
     private EditText editTextTeachableMoment;
-    private EditText editTextAuthor;
+    private EditText editTextUserNickname;
     private EditText editTextDate;
     private RatingBar ratingBar;
     private Toolbar toolbar;
@@ -58,8 +55,8 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
         editTextRating.setEnabled(false);
         editTextTeachableMoment = (EditText) findViewById(R.id.editTextTeachableMoment);
         editTextTeachableMoment.setKeyListener(null);
-        editTextAuthor = (EditText) findViewById(R.id.editTextAuthor);
-        editTextAuthor.setEnabled(false);
+        editTextUserNickname = (EditText) findViewById(R.id.editTextUserNickname);
+        editTextUserNickname.setEnabled(false);
         editTextDate = (EditText) findViewById(R.id.editTextDate);
         editTextDate.setEnabled(false);
 
@@ -75,8 +72,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
         editTextRating.setText("Ø" + String.valueOf(tm.getAverageRating()));
         editTextRating.setTextColor(Color.GRAY);
         editTextTeachableMoment.setText(tm.getTeachableMoment());
-        _UserInformation x = tm.getUserInformation();
-        editTextAuthor.setText(x.getNickname());
+        editTextUserNickname.setText(tm.getUserNickname());
         editTextDate.setText(tm.getDate().toString());
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);

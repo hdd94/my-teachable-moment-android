@@ -75,7 +75,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/editTextAuthor"
+                android:id="@+id/editTextUserNickname"
                 android:layout_width="0dp"
                 android:layout_height="25dp"
                 android:layout_below="@id/editTextTeachableMoment"

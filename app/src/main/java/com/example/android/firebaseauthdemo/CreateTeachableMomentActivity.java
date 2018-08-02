@@ -39,9 +39,9 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
-    private _UserInformation userInformation;
+    private DatePickerDialog datePickerDialog;
 
-    DatePickerDialog datePickerDialog;
+    private String userNickname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        initUsername();
+        initUserNickname();
     }
 
     @Override
@@ -122,7 +122,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         //TODO: !!!!!!!!!!!!!!!!!!!!!!! Ein Objekt herausfinden mit UserID, sodass in Firebase nach Object gesucht wird mit der passenden ID
         String userID = firebaseAuth.getCurrentUser().getUid();
         String creationDate = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-        _TeachableMomentInformation teachableMomentInformation = new _TeachableMomentInformation(id, title, teachableMoment, date, creationDate, userID, userInformation);
+        _TeachableMomentInformation teachableMomentInformation = new _TeachableMomentInformation(id, title, teachableMoment, date, creationDate, userID, userNickname);
         databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -134,13 +134,12 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         });
     }
 
-    private void initUsername() {
+    private void initUserNickname() {
         String userID = firebaseAuth.getCurrentUser().getUid();
         databaseReference.child("Benutzer").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-               userInformation = dataSnapshot.getValue(_UserInformation.class);
+               userNickname = dataSnapshot.getValue(_UserInformation.class).getNickname();
             }
 
             @Override
