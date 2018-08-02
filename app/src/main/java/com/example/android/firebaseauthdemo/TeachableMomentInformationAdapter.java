@@ -47,7 +47,7 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
         _TeachableMomentInformation tm = tmList.get(position);
         holder.title.setText(tm.getTitle());
         try {
-//            holder.user.setText(tm.getUserInformation().getNickname());
+//            holder.user.setText(tm.getNickname());
             holder.user.setText(tm.getDate());
         } catch (NullPointerException npe) {
             // It's fine if findUser throws a NPE

@@ -161,7 +161,6 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
                                           int monthOfYear, int dayOfMonth) {
                         editTextDate.setText(dayOfMonth + "."
                                 + (monthOfYear + 1) + "." + year);
-
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();

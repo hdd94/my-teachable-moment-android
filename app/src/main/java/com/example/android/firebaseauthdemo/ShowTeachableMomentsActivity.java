@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,9 +42,9 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
     private AlertDialog alertDialogSort;
     private CharSequence[] sort_values = {"  Aktuelle Beiträge","  Höchste Bewertung","  Meiste Bewertungen"};
 
-    private boolean ascendingCurrent = true;
-    private boolean ascendingHighest = true;
-    private boolean ascendingMost = true;
+    private boolean ascendingCurrentPost = true;
+    private boolean ascendingHighestRating = true;
+    private boolean ascendingMostRatings = true;
 
     private Toolbar toolbar;
 
@@ -178,17 +176,17 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch(i)
                 {
-                    case 0: //Aktuellste Beiträge
-                        sortDataCurrent(ascendingCurrent);
-                        ascendingCurrent = !ascendingCurrent;
+                    case 0: //Aktuellste Beiträge - Current
+                        sortDataCurrentPost(ascendingCurrentPost);
+                        ascendingCurrentPost = !ascendingCurrentPost;
                         break;
 
-                    case 1: //Höchstbewertete Beiträge
-                        sortDataCurrent(ascendingCurrent);
-                        ascendingCurrent = !ascendingCurrent;
+                    case 1: //Höchstbewertete Beiträge - HighestRating
+                        sortDataHighestRating(ascendingHighestRating);
+                        ascendingHighestRating = !ascendingHighestRating;
                         break;
 
-                    case 2: //Meistbewertete Beiträge
+                    case 2: //Meistbewertete Beiträge - MostRatings
 
                         Toast.makeText(getApplicationContext(), "Third Item Clicked", Toast.LENGTH_LONG).show();
                         break;
@@ -201,8 +199,8 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
     }
 
-    private void sortDataCurrent(boolean ascendingCurrent) {
-        if(ascendingCurrent) {
+    private void sortDataCurrentPost(boolean ascendingCurrentPost) {
+        if(ascendingCurrentPost) {
             Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
                 public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
                     Date[] dateArray = parseStringToDate(t1.getDate(), t2.getDate());
@@ -233,5 +231,22 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         }
         Date[] dateArray = {_d1, _d2};
         return dateArray;
+    }
+
+    private void sortDataHighestRating(boolean ascendingHighestRating) {
+        if(ascendingHighestRating) {
+            Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
+                public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
+                    return Float.compare(t1.averageRating, t2.averageRating);
+                }
+            });
+        }
+        else {
+            Collections.reverse(tmList);
+        }
+
+        mAdapter = new TeachableMomentInformationAdapter(tmList);
+        mAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(mAdapter);
     }
 }
