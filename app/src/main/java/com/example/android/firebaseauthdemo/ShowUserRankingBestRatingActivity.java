@@ -20,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ShowUserRankingBestRatingActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,7 +36,7 @@ public class ShowUserRankingBestRatingActivity extends AppCompatActivity impleme
     private RecyclerView recyclerView;
     //TODO: TeachableMoment anzeigen mit User anzeigen wechseln!
     private UserRankingBestRankingAdapter mAdapter;
-    List<_UserInformation> umList = new ArrayList<>();
+    List<_TeachableMomentInformation> tmList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class ShowUserRankingBestRatingActivity extends AppCompatActivity impleme
             startActivity(new Intent(this, ShowTitleScreen.class));
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Benutzer");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("UnconfirmedMoments");
 
         buttonChange = (ImageButton) findViewById(R.id.imageButtonChange);
         buttonChange.setOnClickListener(this);
@@ -64,32 +66,18 @@ public class ShowUserRankingBestRatingActivity extends AppCompatActivity impleme
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         recyclerView.setHasFixedSize(true);
-
-        // vertical RecyclerView
-        // keep movie_list_row.xml width to `match_parent`
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
-        // horizontal RecyclerView
-        // keep movie_list_row.xml width to `wrap_content`
-        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-
         recyclerView.setLayoutManager(mLayoutManager);
 
         // adding inbuilt divider line
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-
-        // adding custom divider line with padding 16dp
-        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-//        recyclerView.setAdapter(mAdapter);
-
-        // row click listener
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                _UserInformation um = umList.get(position);
-                Toast.makeText(getApplicationContext(), um.getNickname() + " is selected!", Toast.LENGTH_SHORT).show();
+                _TeachableMomentInformation tm = tmList.get(position);
+                Toast.makeText(getApplicationContext(), tm.getUserNickname() + " is selected!", Toast.LENGTH_SHORT).show();
 
 //                callTeachableMoment(tm);
             }
@@ -117,13 +105,17 @@ public class ShowUserRankingBestRatingActivity extends AppCompatActivity impleme
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                umList.clear();
+                tmList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    _UserInformation um = postSnapshot.getValue(_UserInformation.class);
-                    umList.add(um);
+                    _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
+                    tmList.add(tm);
                 }
 
-                mAdapter = new UserRankingBestRankingAdapter(umList);
+                sortDataHighestRatingAndName();
+                filterUserHighestRating(tmList);
+                sortDataHighestRating();
+
+                mAdapter = new UserRankingBestRankingAdapter(tmList);
                 recyclerView.setAdapter(mAdapter);
 
                 mAdapter.notifyDataSetChanged();
@@ -136,13 +128,53 @@ public class ShowUserRankingBestRatingActivity extends AppCompatActivity impleme
         });
     }
 
+    private void sortDataHighestRatingAndName() {
+        Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
+            public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
+                int temp = t2.getUserNickname().compareTo(t1.getUserNickname());
+                if(temp == 0) {
+                    return Float.compare(t2.getAverageRating(), t1.getAverageRating());
+//                    temp = String.valueOf(t2.getAverageRating()).compareTo(String.valueOf(t1.getAverageRating()));
+                }
+                return temp;
+            }
+        });
+    }
+
+    private void filterUserHighestRating(List<_TeachableMomentInformation> tmList) {
+        List<_TeachableMomentInformation> tmListFiltered = tmList;
+        List<_TeachableMomentInformation> tmListNew = new ArrayList<>();
+
+        _TeachableMomentInformation tm = tmListFiltered.get(0);
+        tmListNew.add(tm);
+
+        for (int i = 0; i < tmListFiltered.size(); i++) {
+            _TeachableMomentInformation temp = tmListFiltered.get(i);
+            if(!(temp.getUserNickname().equals(tm.getUserNickname()))) {
+                tm = temp;
+                tmListNew.add(tm);
+            }
+        }
+
+        this.tmList = tmListNew;
+    }
+
+    private void sortDataHighestRating() {
+        Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
+            public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
+                return Float.compare(t2.getAverageRating(), t1.getAverageRating());
+//                return String.valueOf(t2.getAverageRating()).compareTo(String.valueOf(t1.getAverageRating()));
+            }
+        });
+    }
+
 //    private void callTeachableMoment(_TeachableMomentInformation tm) {
 //
 //        Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
 //        intent.putExtra("TeachableMoment", tm);
 //        startActivity(intent);
-//
 //    }
+
     //TODO: RecyclerViews sortieren
 
     //TODO Prüfen, ob es funktioniert, dass der Zurückbutton auf die vorherige Activity zeigt

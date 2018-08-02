@@ -17,6 +17,7 @@ import java.util.List;
 public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <TeachableMomentInformationAdapter.MyViewHolder> {
 
     private List<_TeachableMomentInformation> tmList;
+    private String sortType;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, user, rating;
@@ -30,8 +31,9 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
     }
 
 
-    public TeachableMomentInformationAdapter(List<_TeachableMomentInformation> tmList) {
+    public TeachableMomentInformationAdapter(List<_TeachableMomentInformation> tmList, String sortType) {
         this.tmList = tmList;
+        this.sortType = sortType;
     }
 
     @Override
@@ -47,10 +49,21 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
         _TeachableMomentInformation tm = tmList.get(position);
         holder.title.setText(tm.getTitle());
         try {
-//            holder.user.setText(tm.getNickname());
-            holder.user.setText(tm.getDate());
+            switch (sortType) {
+                case "Nickname":
+                    holder.user.setText(tm.getUserNickname());
+                    break;
+                case "CurrentPost":
+                    holder.user.setText(tm.getDate());
+                    break;
+                case "HighestRating":
+                    holder.user.setText(String.valueOf(tm.getAverageRating()));
+                    break;
+                case "MostRatings":
+                    holder.user.setText(String.valueOf(tm.getCountRatings()));
+                    break;
+            }
         } catch (NullPointerException npe) {
-            // It's fine if findUser throws a NPE
         }
     }
 

@@ -95,18 +95,14 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
 
     private void saveTeachableMoment () {
 
+        //TODO: !!!!!!!!!!!!!!!!!!!!!!! Ein Objekt herausfinden mit UserID, sodass in Firebase nach Object gesucht wird mit der passenden ID
+        String userID = firebaseAuth.getCurrentUser().getUid();
+        String creationDate = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+
         String id = databaseReference.push().getKey();
         String title = editTextTitle.getText().toString();
         String teachableMoment = editTextTeachableMoment.getText().toString();
         String date = editTextDate.getText().toString();
-//        DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-//        Date date = null;
-//        try {
-//            date = format.parse(dateString);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        Log.d("", "saveTeachableMoment: " + date);
 
         if(TextUtils.isEmpty(title)) {
             Toast.makeText(this, "Bitte gebe einen Titel ein.", Toast.LENGTH_SHORT).show();
@@ -119,16 +115,11 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
             return;
         }
 
-        //TODO: !!!!!!!!!!!!!!!!!!!!!!! Ein Objekt herausfinden mit UserID, sodass in Firebase nach Object gesucht wird mit der passenden ID
-        String userID = firebaseAuth.getCurrentUser().getUid();
-        String creationDate = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
         _TeachableMomentInformation teachableMomentInformation = new _TeachableMomentInformation(id, title, teachableMoment, date, creationDate, userID, userNickname);
         databaseReference.child("UnconfirmedMoments").child(id).setValue(teachableMomentInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 finish();
-                //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-//                startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
                 Toast.makeText(getApplicationContext(), "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
             }
         });

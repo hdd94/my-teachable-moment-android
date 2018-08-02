@@ -40,8 +40,9 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
     private ImageButton buttonRanking;
 
     private AlertDialog alertDialogSort;
-    private CharSequence[] sort_values = {"  Aktuelle Beiträge","  Höchste Bewertung","  Meiste Bewertungen"};
+    private CharSequence[] sort_values = {"  Nickname", "  Aktuelle Beiträge","  Höchste Bewertung","  Meiste Bewertungen"};
 
+    private boolean ascendingNickname = true;
     private boolean ascendingCurrentPost = true;
     private boolean ascendingHighestRating = true;
     private boolean ascendingMostRatings = true;
@@ -81,7 +82,6 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -152,9 +152,8 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
                     tmList.add(tm);
                 }
 
-                mAdapter = new TeachableMomentInformationAdapter(tmList);
+                mAdapter = new TeachableMomentInformationAdapter(tmList, "CurrentPost");
                 recyclerView.setAdapter(mAdapter);
-
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -176,19 +175,24 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch(i)
                 {
-                    case 0: //Aktuellste Beiträge - Current
+                    case 0: //Nach Nickname sortiert - Nickname
+                        sortDataNickname(ascendingNickname);
+                        ascendingNickname = !ascendingNickname;
+                        break;
+
+                    case 1: //Aktuellste Beiträge - Current
                         sortDataCurrentPost(ascendingCurrentPost);
                         ascendingCurrentPost = !ascendingCurrentPost;
                         break;
 
-                    case 1: //Höchstbewertete Beiträge - HighestRating
+                    case 2: //Höchstbewertete Beiträge - HighestRating
                         sortDataHighestRating(ascendingHighestRating);
                         ascendingHighestRating = !ascendingHighestRating;
                         break;
 
-                    case 2: //Meistbewertete Beiträge - MostRatings
-
-                        Toast.makeText(getApplicationContext(), "Third Item Clicked", Toast.LENGTH_LONG).show();
+                    case 3: //Meistbewertete Beiträge - MostRatings
+                        sortDataMostRatings(ascendingMostRatings);
+                        ascendingMostRatings = !ascendingMostRatings;
                         break;
                 }
                 alertDialogSort.dismiss();
@@ -199,11 +203,28 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
     }
 
+    private void sortDataNickname(boolean ascendingNickname) {
+        if(ascendingNickname) {
+            Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
+                public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
+                    return t2.getUserNickname().compareTo(t1.getUserNickname());
+                }
+            });
+        }
+        else {
+            Collections.reverse(tmList);
+        }
+
+        mAdapter = new TeachableMomentInformationAdapter(tmList, "Nickname");
+//        mAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(mAdapter);
+    }
+
     private void sortDataCurrentPost(boolean ascendingCurrentPost) {
         if(ascendingCurrentPost) {
             Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
                 public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
-                    Date[] dateArray = parseStringToDate(t1.getDate(), t2.getDate());
+                    Date[] dateArray = parseStringToDate(t2.getDate(), t1.getDate());
                     if (dateArray[0] == null || dateArray[1] == null)
                         return 0;
                     return dateArray[0].compareTo(dateArray[1]);
@@ -214,8 +235,8 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             Collections.reverse(tmList);
         }
 
-        mAdapter = new TeachableMomentInformationAdapter(tmList);
-        mAdapter.notifyDataSetChanged();
+        mAdapter = new TeachableMomentInformationAdapter(tmList, "CurrentPost");
+//        mAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -237,7 +258,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         if(ascendingHighestRating) {
             Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
                 public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
-                    return Float.compare(t1.averageRating, t2.averageRating);
+                    return String.valueOf(t2.getAverageRating()).compareTo(String.valueOf(t1.getAverageRating()));
                 }
             });
         }
@@ -245,8 +266,26 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             Collections.reverse(tmList);
         }
 
-        mAdapter = new TeachableMomentInformationAdapter(tmList);
-        mAdapter.notifyDataSetChanged();
+        mAdapter = new TeachableMomentInformationAdapter(tmList, "HighestRating");
+//        mAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    private void sortDataMostRatings(boolean ascendingMostRatings) {
+
+        if(ascendingMostRatings) {
+            Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
+                public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
+                    return String.valueOf(t2.getCountRatings()).compareTo(String.valueOf(t1.getCountRatings()));
+                }
+            });
+        }
+        else {
+            Collections.reverse(tmList);
+        }
+
+        mAdapter = new TeachableMomentInformationAdapter(tmList, "MostRatings");
+//        mAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(mAdapter);
     }
 }

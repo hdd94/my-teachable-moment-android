@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
@@ -140,6 +141,9 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
                     average = Math.floor((total / count) * 100) / 100;
                 }
                 databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("averageRating").setValue(average);
+
+                int countRatings = (int) dataSnapshot.getChildrenCount();
+                databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("countRatings").setValue(countRatings);
             }
 
             @Override
