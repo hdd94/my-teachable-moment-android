@@ -77,9 +77,9 @@ public class ShowUserRankingBestRatingActivity extends AppCompatActivity impleme
             @Override
             public void onClick(View view, int position) {
                 _TeachableMomentInformation tm = tmList.get(position);
-                Toast.makeText(getApplicationContext(), tm.getUserNickname() + " is selected!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), tm.getUserNickname() + " is selected!", Toast.LENGTH_SHORT).show();
 
-//                callTeachableMoment(tm);
+                callTeachableMoment(tm);
             }
 
             @Override
@@ -162,18 +162,22 @@ public class ShowUserRankingBestRatingActivity extends AppCompatActivity impleme
     private void sortDataHighestRating() {
         Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
             public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
-                return Float.compare(t2.getAverageRating(), t1.getAverageRating());
+                int temp = Float.compare(t2.getAverageRating(), t1.getAverageRating());
 //                return String.valueOf(t2.getAverageRating()).compareTo(String.valueOf(t1.getAverageRating()));
+                if (temp == 0) {
+                    return t1.getUserNickname().compareTo(t2.getUserNickname());
+                }
+                return temp;
             }
         });
     }
 
-//    private void callTeachableMoment(_TeachableMomentInformation tm) {
-//
-//        Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
-//        intent.putExtra("TeachableMoment", tm);
-//        startActivity(intent);
-//    }
+    private void callTeachableMoment(_TeachableMomentInformation tm) {
+
+        Intent intent = new Intent(this, ShowOneTeachableMomentActivity.class);
+        intent.putExtra("TeachableMoment", tm);
+        startActivity(intent);
+    }
 
     //TODO: RecyclerViews sortieren
 

@@ -44,8 +44,10 @@ public class UserRankingMostMomentsAdapter extends RecyclerView.Adapter <UserRan
     public void onBindViewHolder(MyViewHolder holder, int position) {
         _UserInformation um = uList.get(position);
         holder.nickname.setText(um.getNickname());
-        holder.count.setText("Anzahl der Beiträge");
-        holder.rating.setText("Rang");
+        String label = null;
+        if (um.tmCounter == 1) label = " Beitrag"; else label = " Beiträge";
+        holder.count.setText(String.valueOf(um.getTmCounter()) + label);
+        holder.rating.setText(String.valueOf("#" + (position + 1)));
     }
 
     @Override

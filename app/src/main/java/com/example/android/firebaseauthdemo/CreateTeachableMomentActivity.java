@@ -121,6 +121,30 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
             public void onSuccess(Void aVoid) {
                 finish();
                 Toast.makeText(getApplicationContext(), "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
+                updateTmCounter();
+            }
+        });
+    }
+
+    private void updateTmCounter() {
+        databaseReference.child("UnconfirmedMoments").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int tmCount = 0;
+                String userID = firebaseAuth.getCurrentUser().getUid();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
+//                    if (tm.getUserID() == userID && tm.isConfirmed())
+                    if (tm.getUserID().equals(userID)) {
+                        tmCount++;
+                    }
+                }
+                databaseReference.child("Benutzer").child(userID).child("tmCounter").setValue(tmCount);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

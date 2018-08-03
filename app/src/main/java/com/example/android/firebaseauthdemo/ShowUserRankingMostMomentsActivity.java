@@ -20,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ShowUserRankingMostMomentsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -64,33 +66,20 @@ public class ShowUserRankingMostMomentsActivity extends AppCompatActivity implem
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         recyclerView.setHasFixedSize(true);
-
-        // vertical RecyclerView
-        // keep movie_list_row.xml width to `match_parent`
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
-        // horizontal RecyclerView
-        // keep movie_list_row.xml width to `wrap_content`
-        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
 
         recyclerView.setLayoutManager(mLayoutManager);
 
         // adding inbuilt divider line
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
-        // adding custom divider line with padding 16dp
-        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-//        recyclerView.setAdapter(mAdapter);
-
-        // row click listener
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                _UserInformation um = umList.get(position);
-                Toast.makeText(getApplicationContext(), um.getNickname() + " is selected!", Toast.LENGTH_SHORT).show();
-
+//                _UserInformation um = umList.get(position);
+//                Toast.makeText(getApplicationContext(), um.getNickname() + " is selected!", Toast.LENGTH_SHORT).show();
 //                callTeachableMoment(tm);
             }
 
@@ -123,6 +112,8 @@ public class ShowUserRankingMostMomentsActivity extends AppCompatActivity implem
                     umList.add(um);
                 }
 
+                sortMostMoments();
+
                 mAdapter = new UserRankingMostMomentsAdapter(umList);
                 recyclerView.setAdapter(mAdapter);
 
@@ -132,6 +123,18 @@ public class ShowUserRankingMostMomentsActivity extends AppCompatActivity implem
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void sortMostMoments() {
+        Collections.sort(umList, new Comparator<_UserInformation>() {
+            public int compare(_UserInformation u1, _UserInformation u2) {
+                int temp = String.valueOf(u2.getTmCounter()).compareTo(String.valueOf(u1.getTmCounter()));
+                if(temp == 0) {
+                    return u1.getNickname().compareTo(u2.getNickname());
+                }
+                return temp;
             }
         });
     }

@@ -11,6 +11,7 @@ public class _UserInformation {
     public String surname;
     public String email;
     public String creationDate;
+    public int tmCounter;
 
     public _UserInformation() {
 
@@ -62,5 +63,13 @@ public class _UserInformation {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public int getTmCounter() {
+        return tmCounter;
+    }
+
+    public void setTmCounter(int tmCounter) {
+        this.tmCounter = tmCounter;
     }
 }

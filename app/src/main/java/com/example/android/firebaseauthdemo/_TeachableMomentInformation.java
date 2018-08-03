@@ -19,7 +19,6 @@ public class _TeachableMomentInformation implements Parcelable {
 
     public float averageRating;
     public int countRatings;
-    public int counter;
     public boolean confirmed;
 
     public _TeachableMomentInformation() {
@@ -45,7 +44,6 @@ public class _TeachableMomentInformation implements Parcelable {
         userID = in.readString();
         averageRating = in.readFloat();
         countRatings = in.readInt();
-        counter = in.readInt();
         confirmed = in.readByte() != 0;
     }
 
@@ -59,7 +57,6 @@ public class _TeachableMomentInformation implements Parcelable {
         dest.writeString(userID);
         dest.writeFloat(averageRating);
         dest.writeInt(countRatings);
-        dest.writeInt(counter);
         dest.writeByte((byte) (confirmed ? 1 : 0));
     }
 
@@ -150,14 +147,6 @@ public class _TeachableMomentInformation implements Parcelable {
 
     public void setCountRatings(int countRatings) {
         this.countRatings = countRatings;
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
     }
 
     public boolean isConfirmed() {
