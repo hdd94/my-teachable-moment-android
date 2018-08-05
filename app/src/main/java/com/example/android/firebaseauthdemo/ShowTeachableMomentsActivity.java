@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,6 +47,8 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
     private boolean ascendingHighestRating = true;
     private boolean ascendingMostRatings = true;
 
+//    private boolean adminStatus = false;
+
     private Toolbar toolbar;
 
     private RecyclerView recyclerView;
@@ -65,7 +67,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             startActivity(new Intent(this, ShowTitleScreen.class));
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("UnconfirmedMoments");
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         buttonCreate = (ImageButton) findViewById(R.id.imageButtonCreate);
         buttonCreate.setOnClickListener(this);
@@ -95,6 +97,56 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
             }
         }));
+    }
+
+    // Elemente von der Datenbank werden in die Liste geaddet
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkAdminStatusAndShowTM();
+    }
+
+    private void checkAdminStatusAndShowTM() {
+
+        String userID = firebaseAuth.getCurrentUser().getUid();
+        databaseReference.child("Benutzer").child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                _UserInformation u = dataSnapshot.getValue(_UserInformation.class);
+                boolean adminStatus = u.getAdminStatus();
+                showTM(adminStatus);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    private void showTM(final boolean adminStatus) {
+        databaseReference.child("UnconfirmedMoments").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                tmList.clear();
+
+                if (adminStatus == true) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
+                        tmList.add(tm);}
+                }
+                else {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
+                        if (tm.isConfirmed()) tmList.add(tm);
+                    }
+                }
+
+                mAdapter = new TeachableMomentInformationAdapter(tmList, "CurrentPost");
+                recyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
     }
 
     private void callTeachableMoment(_TeachableMomentInformation tm) {
@@ -136,32 +188,6 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    // Elemente von der Datenbank werden in die Liste geaddet
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                tmList.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
-                    tmList.add(tm);
-                }
-
-                mAdapter = new TeachableMomentInformationAdapter(tmList, "CurrentPost");
-                recyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void showAlertDialogSort(){

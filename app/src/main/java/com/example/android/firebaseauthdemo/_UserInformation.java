@@ -12,6 +12,7 @@ public class _UserInformation {
     public String email;
     public String creationDate;
     public int tmCounter;
+    public boolean adminStatus;
 
     public _UserInformation() {
 
@@ -23,6 +24,7 @@ public class _UserInformation {
         this.surname = surname;
         this.email = email;
         this.creationDate = creationDate;
+        this.adminStatus = false;
     }
 
     public String getEmail() {
@@ -71,5 +73,13 @@ public class _UserInformation {
 
     public void setTmCounter(int tmCounter) {
         this.tmCounter = tmCounter;
+    }
+
+    public boolean getAdminStatus() {
+        return adminStatus;
+    }
+
+    public void setAdminStatus(boolean adminStatus) {
+        this.adminStatus = adminStatus;
     }
 }

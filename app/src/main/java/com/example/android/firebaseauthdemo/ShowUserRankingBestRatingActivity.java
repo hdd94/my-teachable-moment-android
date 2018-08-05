@@ -108,7 +108,7 @@ public class ShowUserRankingBestRatingActivity extends AppCompatActivity impleme
                 tmList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
-                    tmList.add(tm);
+                    if (tm.getAverageRating() > 0 && tm.isConfirmed()) tmList.add(tm);
                 }
 
                 sortDataHighestRatingAndName();

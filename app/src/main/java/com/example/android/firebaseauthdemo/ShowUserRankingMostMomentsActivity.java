@@ -109,7 +109,7 @@ public class ShowUserRankingMostMomentsActivity extends AppCompatActivity implem
                 umList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     _UserInformation um = postSnapshot.getValue(_UserInformation.class);
-                    umList.add(um);
+                    if (um.getTmCounter() != 0) umList.add(um);
                 }
 
                 sortMostMoments();

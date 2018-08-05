@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -101,7 +99,7 @@ public class ReAuthenticateUserActivity extends AppCompatActivity implements Vie
 
                             finish();
                             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
-                            startActivity(new Intent(getApplicationContext(), ShowMenuUserDataActivity.class));
+                            startActivity(new Intent(getApplicationContext(), ShowMenuChangeUserDataActivity.class));
                         } else {
                             Toast.makeText(getApplicationContext(), "Bitte überprüfen Sie Ihre Anmeldedaten", Toast.LENGTH_SHORT).show();
                         }

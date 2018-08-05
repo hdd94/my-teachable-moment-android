@@ -34,7 +34,7 @@
         <activity android:name=".ChangeMailActivity"></activity>
         <activity android:name=".ChangePasswordActivity"></activity>
         <activity android:name=".ReAuthenticateUserActivity"></activity>
-        <activity android:name=".ShowMenuUserDataActivity"></activity>
+        <activity android:name=".ShowMenuChangeUserDataActivity"></activity>
         <activity android:name=".ContactSupportActivity"></activity>
     </application>
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
@@ -78,7 +79,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity{
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         final DatabaseReference dbRating = databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("ratings");
-        boolean userHasRated = false;
+        if (tm.getUserID().equals(firebaseAuth.getCurrentUser().getUid())) ratingBar.setVisibility(View.INVISIBLE);
 
         dbRating.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
