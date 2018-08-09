@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.android.firebaseauthdemo.CreateTeachableMomentActivity">
+
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/editTextTitle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:background="@null"
+                android:hint="Titel eingeben"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editTextRating"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="15dp"
+                android:background="@null"
+                android:hint="Ø2,5"
+                android:maxLines="1"
+                android:gravity="right"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextTeachableMoment"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/border_teachable_moment"
+            android:gravity="top|left"
+            android:hint="Deinen Teachable Moment verfassen... \nWas hast du erlebt? \nWas sind deine Erfahrungen?  \nWas sind deine Erkenntnisse? \nEtc..."
+            android:maxLines="11"
+            android:padding="8dp"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editTextUserNickname"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_below="@id/editTextTeachableMoment"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="@null"
+                android:singleLine="true"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_below="@id/editTextTeachableMoment"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="right"
+                android:hint="Datum eingeben"
+                android:singleLine="true"
+                android:editable="false"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonConfirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editTextUserNickname"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Confirm"
+                />
+
+            <Button
+                android:id="@+id/buttonDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editTextDate"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Delete"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
