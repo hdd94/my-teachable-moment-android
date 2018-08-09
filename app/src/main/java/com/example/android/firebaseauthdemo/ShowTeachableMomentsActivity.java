@@ -41,13 +41,16 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
     private AlertDialog alertDialogSort;
     private CharSequence[] sort_values = {"  Nickname", "  Aktuelle Beiträge","  Höchste Bewertung","  Meiste Bewertungen"};
+    private CharSequence[] sort_values_admin = {"  Confirmed","  Nickname", "  Aktuelle Beiträge","  Höchste Bewertung","  Meiste Bewertungen"};
 
+    private boolean ascendingConfirmed = true;
+//    private boolean ascendingOwnPost = true;
     private boolean ascendingNickname = true;
     private boolean ascendingCurrentPost = true;
     private boolean ascendingHighestRating = true;
     private boolean ascendingMostRatings = true;
 
-//    private boolean adminStatus = false;
+    private boolean adminStatus = false;
 
     private Toolbar toolbar;
 
@@ -70,8 +73,10 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         buttonCreate = (ImageButton) findViewById(R.id.imageButtonCreate);
+        buttonCreate.setVisibility(View.GONE);
         buttonCreate.setOnClickListener(this);
         buttonRanking = (ImageButton) findViewById(R.id.imageButtonUserRanking);
+        buttonRanking.setVisibility(View.GONE);
         buttonRanking.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -97,12 +102,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
             }
         }));
-    }
 
-    // Elemente von der Datenbank werden in die Liste geaddet
-    @Override
-    protected void onStart() {
-        super.onStart();
         checkAdminStatusAndShowTM();
     }
 
@@ -113,31 +113,42 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 _UserInformation u = dataSnapshot.getValue(_UserInformation.class);
-                boolean adminStatus = u.getAdminStatus();
-                showTM(adminStatus);
+                adminStatus = u.getAdminStatus();
+                checkUser(adminStatus);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
-    private void showTM(final boolean adminStatus) {
+    private void checkUser(final boolean adminStatus) {
         databaseReference.child("UnconfirmedMoments").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 tmList.clear();
 
                 if (adminStatus == true) {
+                    buttonRanking.setVisibility(View.VISIBLE);
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
                         tmList.add(tm);}
                 }
                 else {
+                    buttonRanking.setVisibility(View.VISIBLE);
+                    buttonCreate.setVisibility(View.VISIBLE);
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
-                        if (tm.isConfirmed()) tmList.add(tm);
-                    }
+                        if (tm.isConfirmed()) tmList.add(tm);}
                 }
+
+                Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
+                        public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
+                        Date[] dateArray = parseStringToDate(t2.getDate(), t1.getDate());
+                        if (dateArray[0] == null || dateArray[1] == null)
+                            return 0;
+                        return dateArray[0].compareTo(dateArray[1]);
+                    }
+                });
 
                 mAdapter = new TeachableMomentInformationAdapter(tmList, "CurrentPost");
                 recyclerView.setAdapter(mAdapter);
@@ -157,13 +168,8 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View view) {
-        if (view == buttonCreate) {
-            startActivity(new Intent(this, CreateTeachableMomentActivity.class));
-        }
-
-        if (view == buttonRanking) {
-            startActivity(new Intent(this, ShowUserRankingBestRatingActivity.class));
-        }
+        if (view == buttonCreate) startActivity(new Intent(this, CreateTeachableMomentActivity.class));
+        if (view == buttonRanking) startActivity(new Intent(this, ShowUserRankingBestRatingActivity.class));
     }
 
     // Appbar Icons initialisieren
@@ -191,42 +197,144 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
     }
 
     public void showAlertDialogSort(){
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Sortieren nach...");
-        builder.setItems(sort_values, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch(i)
-                {
-                    case 0: //Nach Nickname sortiert - Nickname
-                        sortDataNickname(ascendingNickname);
-                        ascendingNickname = !ascendingNickname;
-                        break;
+        if (adminStatus) {
+            builder.setItems(sort_values_admin, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch(i)
+                    {
+                        case 0: //Nach Confirmed sortiert - Confirmed
+                            sortDataConfirmed(ascendingConfirmed);
+                            ascendingConfirmed = !ascendingConfirmed;
+                            break;
 
-                    case 1: //Aktuellste Beiträge - Current
-                        sortDataCurrentPost(ascendingCurrentPost);
-                        ascendingCurrentPost = !ascendingCurrentPost;
-                        break;
+                        case 1: //Nach Nickname sortiert - Nickname
+                            sortDataNickname(ascendingNickname);
+                            ascendingNickname = !ascendingNickname;
+                            break;
 
-                    case 2: //Höchstbewertete Beiträge - HighestRating
-                        sortDataHighestRating(ascendingHighestRating);
-                        ascendingHighestRating = !ascendingHighestRating;
-                        break;
+                        case 2: //Aktuellste Beiträge - Current
+                            sortDataCurrentPost(ascendingCurrentPost);
+                            ascendingCurrentPost = !ascendingCurrentPost;
+                            break;
 
-                    case 3: //Meistbewertete Beiträge - MostRatings
-                        sortDataMostRatings(ascendingMostRatings);
-                        ascendingMostRatings = !ascendingMostRatings;
-                        break;
+                        case 3: //Höchstbewertete Beiträge - HighestRating
+                            sortDataHighestRating(ascendingHighestRating);
+                            ascendingHighestRating = !ascendingHighestRating;
+                            break;
+
+                        case 4: //Meistbewertete Beiträge - MostRatings
+                            sortDataMostRatings(ascendingMostRatings);
+                            ascendingMostRatings = !ascendingMostRatings;
+                            break;
+                    }
+                    alertDialogSort.dismiss();
                 }
-                alertDialogSort.dismiss();
-            }
-        });
+            });
+        } else {
+            builder.setItems(sort_values, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch(i)
+                    {
+//                        case 0: //Nach eigene Beiträge sortiert - Confirmed
+//                            sortDataOwnPost(ascendingOwnPost);
+//                            ascendingOwnPost = !ascendingOwnPost;
+//                            break;
+
+                        case 0: //Nach Nickname sortiert - Nickname
+                            sortDataNickname(ascendingNickname);
+                            ascendingNickname = !ascendingNickname;
+                            break;
+
+                        case 1: //Aktuellste Beiträge - Current
+                            sortDataCurrentPost(ascendingCurrentPost);
+                            ascendingCurrentPost = !ascendingCurrentPost;
+                            break;
+
+                        case 2: //Höchstbewertete Beiträge - HighestRating
+                            sortDataHighestRating(ascendingHighestRating);
+                            ascendingHighestRating = !ascendingHighestRating;
+                            break;
+
+                        case 3: //Meistbewertete Beiträge - MostRatings
+                            sortDataMostRatings(ascendingMostRatings);
+                            ascendingMostRatings = !ascendingMostRatings;
+                            break;
+                    }
+                    alertDialogSort.dismiss();
+                }
+            });
+        }
+
         alertDialogSort = builder.create();
         alertDialogSort.show();
 
+    }
+//
+//    private void sortDataOwnPost(boolean ascendingOwnPost) {
+//
+//        databaseReference.child("UnconfirmedMoments").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                showOwnPost(dataSnapshot);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {}
+//        });
+//    }
+
+//    private void showOwnPost(DataSnapshot dataSnapshot) {
+//        tmList.clear();
+//        String userID = firebaseAuth.getCurrentUser().getUid();;
+//
+//        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//            _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
+//            if (tm.getUserID().equals(userID)) tmList.add(tm);
+//        }
+//
+//        if(ascendingOwnPost) {
+//            Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
+//                public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
+//                    int temp = Boolean.compare(t2.isConfirmed(), t1.isConfirmed());
+//                    if (temp == 0) {
+//                        return t1.getTitle().compareTo(t2.getTitle());
+//                    }
+//                    return temp;
+//                }
+//            });
+//        }
+//        else {
+//            Collections.reverse(tmList);
+//        }
+//
+//        mAdapter = new TeachableMomentInformationAdapter(tmList, "Confirmed");
+//        recyclerView.setAdapter(mAdapter);
+//    }
+
+    private void sortDataConfirmed(boolean ascendingConfirmed) {
+        if(ascendingConfirmed) {
+            Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
+                public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
+                    int temp = Boolean.compare(t2.isConfirmed(), t1.isConfirmed());
+                    if (temp == 0) {
+                        return t1.getUserNickname().compareTo(t2.getUserNickname());
+                    }
+                    return temp;
+                }
+            });
+        }
+        else {
+            Collections.reverse(tmList);
+        }
+
+        mAdapter = new TeachableMomentInformationAdapter(tmList, "Confirmed");
+//        mAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(mAdapter);
     }
 
     private void sortDataNickname(boolean ascendingNickname) {

@@ -61,7 +61,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextTeachableMoment = (EditText) findViewById(R.id.editTextTeachableMoment);
         editTextDate = (EditText) findViewById(R.id.editTextDate);
-        editTextDate.setHint(new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()));
+        editTextDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()));
         editTextDate.setOnClickListener(this);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
@@ -120,31 +120,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
             @Override
             public void onSuccess(Void aVoid) {
                 finish();
-                Toast.makeText(getApplicationContext(), "Teachable Moment erfolgreich gespeichert.", Toast.LENGTH_SHORT).show();
-                updateTmCounter();
-            }
-        });
-    }
-
-    private void updateTmCounter() {
-        databaseReference.child("UnconfirmedMoments").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int tmCount = 0;
-                String userID = firebaseAuth.getCurrentUser().getUid();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
-//                    if (tm.getUserID() == userID && tm.isConfirmed())
-                    if (tm.getUserID().equals(userID)) {
-                        tmCount++;
-                    }
-                }
-                databaseReference.child("Benutzer").child(userID).child("tmCounter").setValue(tmCount);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(getApplicationContext(), "Teachable Moment erfolgreich gespeichert und zur Überprüfung übergeben.", Toast.LENGTH_SHORT).show();
             }
         });
     }

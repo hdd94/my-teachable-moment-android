@@ -50,6 +50,10 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
         holder.title.setText(tm.getTitle());
         try {
             switch (sortType) {
+                case "Confirmed":
+                    if (tm.isConfirmed()) holder.user.setText("Bestätigt " + "(" + tm.getUserNickname() + ")");
+                    else holder.user.setText("Nicht bestätigt " + "(" + tm.getUserNickname() + ")");
+                    break;
                 case "Nickname":
                     holder.user.setText(tm.getUserNickname());
                     break;
