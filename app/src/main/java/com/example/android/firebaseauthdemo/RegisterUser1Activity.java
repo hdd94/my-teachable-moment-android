@@ -8,11 +8,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterUser1Activity extends AppCompatActivity implements View.OnClickListener{
 
@@ -23,7 +27,10 @@ public class RegisterUser1Activity extends AppCompatActivity implements View.OnC
     private TextView textViewSignin;
     private Toolbar toolbar;
 
+    private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
+
+    private boolean nicknameExists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,8 @@ public class RegisterUser1Activity extends AppCompatActivity implements View.OnC
             //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
             startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
         }
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         btnContinue = (Button) findViewById(R.id.buttonContinue);
 
@@ -64,13 +73,6 @@ public class RegisterUser1Activity extends AppCompatActivity implements View.OnC
         String forename = editTextForename.getText().toString().trim();
         String surname = editTextSurname.getText().toString().trim();
 
-        if(TextUtils.isEmpty(nickname)) {
-            //email is empty
-            Toast.makeText(this, "Bitte gebe einen Nicknamen ein.", Toast.LENGTH_SHORT).show();
-            //stopping the function execution further
-            return;
-        }
-
         if(TextUtils.isEmpty(forename)) {
             //password is empty
             Toast.makeText(this, "Bitte gebe einen Vornamen ein.", Toast.LENGTH_SHORT).show();
@@ -85,12 +87,45 @@ public class RegisterUser1Activity extends AppCompatActivity implements View.OnC
             return;
         }
 
+        if(TextUtils.isEmpty(nickname)) {
+            //email is empty
+            Toast.makeText(this, "Bitte gebe einen Nicknamen ein.", Toast.LENGTH_SHORT).show();
+            //stopping the function execution further
+            return;
+        }
+
+        if(!Character.isUpperCase(nickname.codePointAt(0))) {
+            Toast.makeText(this, "Der Nickname muss mit einem Großbuchstaben beginnen.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+//        checkIfNicknameExists(nickname);
+        if(nicknameExists) {
+            Toast.makeText(this, "Der Nickname ist schon vorhanden.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent intent = new Intent(this, RegisterUser2Activity.class);
         intent.putExtra("Nickname", nickname);
         intent.putExtra("Vorname", forename);
         intent.putExtra("Nachname", surname);
         startActivity(intent);
     }
+
+//    public void checkIfNicknameExists(final String nickname) {
+//        databaseReference.child("Benutzer").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                    _UserInformation u = postSnapshot.getValue(_UserInformation.class);
+//                    if (u.getNickname().equals(nickname)) nicknameExists = true;
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {}
+//        });
+//    }
 
     @Override
     public void onClick(View view) {

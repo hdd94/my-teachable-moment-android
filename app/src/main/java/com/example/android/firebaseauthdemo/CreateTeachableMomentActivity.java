@@ -150,8 +150,16 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        editTextDate.setText(dayOfMonth + "."
-                                + (monthOfYear + 1) + "." + year);
+                        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                        String inputDate = dayOfMonth + "." + (monthOfYear + 1) + "." + year;
+                        Date todayDate = Calendar.getInstance().getTime();
+                        try {
+                            if (format.parse(inputDate).before(todayDate)) editTextDate.setText(dayOfMonth + "."
+                                    + (monthOfYear + 1) + "." + year);
+                            else Toast.makeText(getApplicationContext(), "Bitte gebe ein gültiges Datum ein.", Toast.LENGTH_SHORT).show();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();

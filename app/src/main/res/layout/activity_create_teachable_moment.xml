@@ -62,7 +62,8 @@
                 android:hint="Datum eingeben"
                 android:singleLine="true"
                 android:editable="false"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:focusableInTouchMode="false"/>
         </LinearLayout>
 
         <Button

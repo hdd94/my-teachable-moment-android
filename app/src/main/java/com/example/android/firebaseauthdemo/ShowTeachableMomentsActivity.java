@@ -1,7 +1,10 @@
 package com.example.android.firebaseauthdemo;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -61,6 +65,13 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(!isNetworkAvailable()) {
+            Toast.makeText(getApplicationContext(), "Bitte stellen Sie eine stabile Internetverbindung zur Verfügung!!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_show_teachable_moments);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -421,5 +432,11 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         mAdapter = new TeachableMomentInformationAdapter(tmList, "MostRatings");
 //        mAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(mAdapter);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

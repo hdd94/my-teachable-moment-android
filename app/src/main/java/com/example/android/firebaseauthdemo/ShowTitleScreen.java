@@ -29,8 +29,8 @@ public class ShowTitleScreen extends AppCompatActivity implements View.OnClickLi
 
         super.onCreate(savedInstanceState);
 
-        if(!isOnline()) {
-            Toast.makeText(getApplicationContext(), "Bitte schalten Sie das Internet an!", Toast.LENGTH_SHORT).show();
+        if(!isNetworkAvailable()) {
+            Toast.makeText(getApplicationContext(), "Bitte stellen Sie eine stabile Internetverbindung zur Verfügung!!", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -77,10 +77,9 @@ public class ShowTitleScreen extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

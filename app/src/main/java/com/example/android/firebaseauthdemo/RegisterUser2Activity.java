@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,12 +21,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 public class RegisterUser2Activity extends AppCompatActivity implements View.OnClickListener{
 
@@ -61,6 +68,7 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         //TODO: E-Mail Verifikation hinzufügen
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+
         editTextPasswordConfirmed = (EditText) findViewById(R.id.editTextPasswordConfirmed);
 
         textViewSignin = (TextView) findViewById(R.id.textViewSignin);
@@ -91,9 +99,7 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
         final String creationDate = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
 
         if(TextUtils.isEmpty(email)) {
-            //email is empty
             Toast.makeText(this, "Bitte gebe eine E-Mail ein.", Toast.LENGTH_SHORT).show();
-            //stopping the function execution further
             return;
         }
 
@@ -104,6 +110,11 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
 
         if(password.length() < 6) {
             Toast.makeText(this, "Das Passwort muss mind. 6 Zeichen enthalten.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!Character.isUpperCase(password.codePointAt(0))) {
+            Toast.makeText(this, "Das Passwort muss mit einem Großbuchstaben beginnen.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -120,7 +131,6 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
         progressBar.setVisibility(View.VISIBLE);
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
-
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -138,9 +148,31 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
                                 }
                             });
                         } else {
-                            Toast.makeText(RegisterUser2Activity.this, "Could not register... please try again", Toast.LENGTH_SHORT).show();
-                            //Gibt raus was für ein Problem der Task hat
-                            task.getException().printStackTrace();
+                            try {
+                                throw task.getException();
+                            }
+                            catch (FirebaseAuthWeakPasswordException weakPassword)
+                            {
+                                Toast.makeText(RegisterUser2Activity.this, "Registrierung nicht erfolgreich... Überprüfe dein Passwort", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            // if user enters wrong password.
+                            catch (FirebaseAuthInvalidCredentialsException malformedEmail)
+                            {
+                                Toast.makeText(RegisterUser2Activity.this, "Registrierung nicht erfolgreich... Überprüfe deine E-Mail", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            catch (FirebaseAuthUserCollisionException existEmail)
+                            {
+                                Toast.makeText(RegisterUser2Activity.this, "Registrierung nicht erfolgreich... E-Mail bereits vorhanden", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            catch (Exception e)
+                            {
+                                Toast.makeText(RegisterUser2Activity.this, "Registrierung nicht erfolgreich... Bitte kontaktiere den Support", Toast.LENGTH_SHORT).show();
+                                task.getException().printStackTrace();
+                                return;
+                            }
                         }
                     }
                 });
