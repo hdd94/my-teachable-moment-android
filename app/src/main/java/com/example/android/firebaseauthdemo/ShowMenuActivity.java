@@ -96,14 +96,6 @@ public class ShowMenuActivity extends AppCompatActivity implements View.OnClickL
             startActivity(i);
             firebaseAuth.signOut();
 
-//            Intent intent = new Intent(this, ShowTitleScreen.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(intent);
-//            finish();
-
-//            Intent intent = new Intent(this, ShowTitleScreen.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(new Intent(this, ShowTitleScreen.class));
         }
     }
 

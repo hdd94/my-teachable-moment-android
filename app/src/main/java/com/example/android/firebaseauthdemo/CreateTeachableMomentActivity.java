@@ -156,7 +156,7 @@ public class CreateTeachableMomentActivity extends AppCompatActivity implements 
                         try {
                             if (format.parse(inputDate).before(todayDate)) editTextDate.setText(dayOfMonth + "."
                                     + (monthOfYear + 1) + "." + year);
-                            else Toast.makeText(getApplicationContext(), "Bitte gebe ein gültiges Datum ein.", Toast.LENGTH_SHORT).show();
+                            else Toast.makeText(getApplicationContext(), "Dein Datum liegt in der Zukunft. Bitte gebe ein gültiges Datum ein.", Toast.LENGTH_SHORT).show();
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }

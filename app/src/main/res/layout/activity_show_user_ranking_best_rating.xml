@@ -9,8 +9,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,18 +16,7 @@
         <include
             layout="@layout/toolbar_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-        <!--<android.support.v7.widget.Toolbar-->
-            <!--nicknameitle="Teachable Moments"-->
-            <!--android:id="@+id/toolbar_teachable_moments_list"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="?attr/actionBarSize"-->
-            <!--android:background="?attr/colorPrimary"-->
-            <!--android:elevation="4dp"-->
-            <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
-            <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/textViewDescription"
@@ -45,22 +32,20 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="390dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:scrollbars="vertical"
             android:background="@drawable/border_teachable_moment"
             android:layout_margin="5dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/imageButtonChange"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/button_bg_round"
-        android:src="@drawable/ic_autorenew_black_24dp" />
-
+        <ImageButton
+            android:id="@+id/imageButtonChange"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="right"
+            android:background="@drawable/button_bg_round"
+            android:src="@drawable/ic_autorenew_black_24dp" />
+    </LinearLayout>
 </RelativeLayout>

@@ -48,7 +48,6 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
     private CharSequence[] sort_values_admin = {"  Confirmed","  Nickname", "  Aktuelle Beiträge","  Höchste Bewertung","  Meiste Bewertungen"};
 
     private boolean ascendingConfirmed = true;
-//    private boolean ascendingOwnPost = true;
     private boolean ascendingNickname = true;
     private boolean ascendingCurrentPost = true;
     private boolean ascendingHighestRating = true;
@@ -120,12 +119,20 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
     private void checkAdminStatusAndShowTM() {
 
         String userID = firebaseAuth.getCurrentUser().getUid();
-        databaseReference.child("Benutzer").child(userID).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Benutzer").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 _UserInformation u = dataSnapshot.getValue(_UserInformation.class);
-                adminStatus = u.getAdminStatus();
-                checkUser(adminStatus);
+                if (u != null) {
+                    adminStatus = u.getAdminStatus();
+                    checkUser(adminStatus);
+                }
+                else {
+                    Intent i = new Intent(getApplicationContext(), ShowTitleScreen.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
+                    firebaseAuth.signOut();
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
@@ -161,7 +168,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
                     }
                 });
 
-                mAdapter = new TeachableMomentInformationAdapter(tmList, "CurrentPost");
+                mAdapter = new TeachableMomentInformationAdapter(tmList, "CurrentPost+Nickname");
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
             }
@@ -285,47 +292,6 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
         alertDialogSort.show();
 
     }
-//
-//    private void sortDataOwnPost(boolean ascendingOwnPost) {
-//
-//        databaseReference.child("UnconfirmedMoments").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                showOwnPost(dataSnapshot);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {}
-//        });
-//    }
-
-//    private void showOwnPost(DataSnapshot dataSnapshot) {
-//        tmList.clear();
-//        String userID = firebaseAuth.getCurrentUser().getUid();;
-//
-//        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//            _TeachableMomentInformation tm = postSnapshot.getValue(_TeachableMomentInformation.class);
-//            if (tm.getUserID().equals(userID)) tmList.add(tm);
-//        }
-//
-//        if(ascendingOwnPost) {
-//            Collections.sort(tmList, new Comparator<_TeachableMomentInformation>() {
-//                public int compare(_TeachableMomentInformation t1, _TeachableMomentInformation t2) {
-//                    int temp = Boolean.compare(t2.isConfirmed(), t1.isConfirmed());
-//                    if (temp == 0) {
-//                        return t1.getTitle().compareTo(t2.getTitle());
-//                    }
-//                    return temp;
-//                }
-//            });
-//        }
-//        else {
-//            Collections.reverse(tmList);
-//        }
-//
-//        mAdapter = new TeachableMomentInformationAdapter(tmList, "Confirmed");
-//        recyclerView.setAdapter(mAdapter);
-//    }
 
     private void sortDataConfirmed(boolean ascendingConfirmed) {
         if(ascendingConfirmed) {
@@ -360,7 +326,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             Collections.reverse(tmList);
         }
 
-        mAdapter = new TeachableMomentInformationAdapter(tmList, "Nickname");
+        mAdapter = new TeachableMomentInformationAdapter(tmList, "Nickname+CurrentPost");
 //        mAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(mAdapter);
     }
@@ -380,8 +346,7 @@ public class ShowTeachableMomentsActivity extends AppCompatActivity implements V
             Collections.reverse(tmList);
         }
 
-        mAdapter = new TeachableMomentInformationAdapter(tmList, "CurrentPost");
-//        mAdapter.notifyDataSetChanged();
+        mAdapter = new TeachableMomentInformationAdapter(tmList, "CurrentPost+Nickname");
         recyclerView.setAdapter(mAdapter);
     }
 

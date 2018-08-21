@@ -145,8 +145,11 @@ public class ShowUserRankingBestRatingActivity extends AppCompatActivity impleme
         List<_TeachableMomentInformation> tmListFiltered = tmList;
         List<_TeachableMomentInformation> tmListNew = new ArrayList<>();
 
-        _TeachableMomentInformation tm = tmListFiltered.get(0);
-        tmListNew.add(tm);
+        _TeachableMomentInformation tm = null;
+        if (tmListFiltered.size() != 0) {
+            tm = tmListFiltered.get(0);
+            tmListNew.add(tm);
+        }
 
         for (int i = 0; i < tmListFiltered.size(); i++) {
             _TeachableMomentInformation temp = tmListFiltered.get(i);

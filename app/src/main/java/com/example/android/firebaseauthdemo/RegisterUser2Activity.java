@@ -143,8 +143,7 @@ public class RegisterUser2Activity extends AppCompatActivity implements View.OnC
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     startActivity(new Intent(getApplicationContext(), ShowTeachableMomentsActivity.class));
-                                    finish();
-                                    //Using "getApplicationContext()" because we are in addOnCompleteListener-Method
+                                    finishAffinity();
                                 }
                             });
                         } else {

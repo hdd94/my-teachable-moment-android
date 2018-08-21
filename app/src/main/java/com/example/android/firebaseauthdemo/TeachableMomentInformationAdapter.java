@@ -54,11 +54,11 @@ public class TeachableMomentInformationAdapter extends RecyclerView.Adapter <Tea
                     if (tm.isConfirmed()) holder.user.setText("Bestätigt " + "(" + tm.getUserNickname() + ")");
                     else holder.user.setText("Nicht bestätigt " + "(" + tm.getUserNickname() + ")");
                     break;
-                case "Nickname":
-                    holder.user.setText(tm.getUserNickname());
+                case "CurrentPost+Nickname":
+                    holder.user.setText(tm.getDate() + " | " + tm.getUserNickname());
                     break;
-                case "CurrentPost":
-                    holder.user.setText(tm.getDate());
+                case "Nickname+CurrentPost":
+                    holder.user.setText(tm.getUserNickname() + " | " + tm.getDate());
                     break;
                 case "HighestRating":
                     holder.user.setText(String.valueOf(tm.getAverageRating()));
