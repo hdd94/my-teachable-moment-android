@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +36,8 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
     private EditText editTextDate;
     private Button buttonConfirm;
     private Button buttonDelete;
+    private Button buttonSave;
+    private ImageButton imageButtonMail;
     private RatingBar ratingBar;
     private Toolbar toolbar;
 
@@ -42,6 +46,9 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
 
     private boolean adminStatus;
     private _TeachableMomentInformation tm;
+
+    private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +84,11 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_show_one_teachable_moment_admin);
 
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
-        editTextTitle.setEnabled(false);
+//        editTextTitle.setEnabled(false);
         editTextRating = (EditText) findViewById(R.id.editTextRating);
         editTextRating.setEnabled(false);
         editTextTeachableMoment = (EditText) findViewById(R.id.editTextTeachableMoment);
-        editTextTeachableMoment.setKeyListener(null);
+//        editTextTeachableMoment.setKeyListener(null);
         editTextUserNickname = (EditText) findViewById(R.id.editTextUserNickname);
         editTextUserNickname.setEnabled(false);
         editTextDate = (EditText) findViewById(R.id.editTextDate);
@@ -91,6 +98,10 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
         buttonDelete = (Button) findViewById(R.id.buttonDelete);
         buttonDelete.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
         buttonDelete.setOnClickListener(this);
+        buttonSave = (Button) findViewById(R.id.buttonSave);
+        buttonSave.setOnClickListener(this);
+        imageButtonMail = (ImageButton) findViewById(R.id.imageButtonMail);
+        imageButtonMail.setOnClickListener(this);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         toolbar.setTitle("Teachable Moment");
@@ -106,11 +117,16 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
         editTextTeachableMoment.setText(tm.getTeachableMoment());
         editTextDate.setText(tm.getDate().toString());
 
-        if (tm.isConfirmed()) buttonConfirm.setText("Unconfirm");
+        if (tm.isConfirmed()) {
+            buttonConfirm.setText("Ablehnen");
+            buttonConfirm.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        }
         else {
-            buttonConfirm.setText("Confirm");
+            buttonConfirm.setText("Bestätigen");
             buttonConfirm.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
         }
+
+        intent = new Intent(this, ContactSupportActivity.class);
 
         databaseReference.child("Benutzer").child(tm.getUserID()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -118,6 +134,7 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
                 _UserInformation u = dataSnapshot.getValue(_UserInformation.class);
                 editTextUserNickname.setText(u.getForename() + " " + u.getSurname() + " (" + u.getNickname() + ")");
                 editTextUserNickname.setTextColor(Color.GRAY);
+                intent.putExtra("Mail", u.getEmail());
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
@@ -245,6 +262,8 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
     public void onClick(View view) {
         if (view == buttonConfirm) confirmTM();
         if (view == buttonDelete) deleteTM();
+        if (view == buttonSave) saveTM();
+        if (view == imageButtonMail) startActivity(intent);
     }
 
     private void confirmTM() {
@@ -254,12 +273,12 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
                 _TeachableMomentInformation tm = dataSnapshot.getValue(_TeachableMomentInformation.class);
                 if (tm.isConfirmed()) {
                     databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("confirmed").setValue(false);
-                    buttonConfirm.setText("Confirm");
+                    buttonConfirm.setText("Bestätigen");
                     buttonConfirm.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
                     updateTmCounter();
                 } else if (!tm.isConfirmed()){
                     databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("confirmed").setValue(true);
-                    buttonConfirm.setText("Unconfirmed");
+                    buttonConfirm.setText("Ablehnen");
                     buttonConfirm.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
                     updateTmCounter();
                 }
@@ -306,6 +325,12 @@ public class ShowOneTeachableMomentActivity extends AppCompatActivity implements
                     }
                 })
                 .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    private void saveTM() {
+        databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("title").setValue(editTextTitle.getText().toString());
+        databaseReference.child("UnconfirmedMoments").child(tm.getId()).child("teachableMoment").setValue(editTextTeachableMoment.getText().toString());
+        Toast.makeText(getApplicationContext(), "Teachable Moment wurde erfolgreich geändert.", Toast.LENGTH_SHORT).show();
     }
 
     @Override

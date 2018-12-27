@@ -115,8 +115,7 @@
                 android:layout_below="@id/editTextUserNickname"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Confirm"
-                />
+                android:text="Bestätigen"/>
 
             <Button
                 android:id="@+id/buttonDelete"
@@ -125,9 +124,30 @@
                 android:layout_below="@id/editTextDate"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Delete"/>
-
+                android:text="Löschen"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0.5"
+                android:id="@+id/buttonSave"
+                android:text="Speichern" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:id="@+id/imageButtonMail"
+                android:src="@drawable/baseline_email_black_36dp"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -91,7 +91,12 @@ public class ContactSupportActivity extends AppCompatActivity implements View.On
 
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"huyducdo@googlemail.com"});
+        String mail = "";
+        try {
+            mail = getIntent().getExtras().getString("Mail");
+        } catch (Exception e) {}
+        if (mail.equals("")) i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"myteamhd@gmail.com"});
+        else i.putExtra(Intent.EXTRA_EMAIL  , new String[]{mail});
         i.putExtra(Intent.EXTRA_SUBJECT, subject);
         i.putExtra(Intent.EXTRA_TEXT   , contactSupport);
         try {
