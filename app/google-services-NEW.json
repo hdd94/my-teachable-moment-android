@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "15068249642",
+    "firebase_url": "https://team-uni-klinikum-heidelberg.firebaseio.com",
+    "project_id": "team-uni-klinikum-heidelberg",
+    "storage_bucket": "team-uni-klinikum-heidelberg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15068249642:android:678a399689280789",
+        "android_client_info": {
+          "package_name": "com.example.android.firebaseauthdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15068249642-4fr5dj088ckfheik6kubvd4ke1s2i66f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7m44SPPZe4dlmgWCo7BzNrNN9hrMZEJA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
